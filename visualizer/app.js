@@ -332,12 +332,23 @@ class App {
   }
 
   updateStateDisplay(s) {
+    const cv = (s.C !== undefined ? s.C : this.dynamics.p.C).toFixed(2);
     document.getElementById('val-h').textContent = s.H.toFixed(2);
     document.getElementById('val-m').textContent = s.M.toFixed(2);
     document.getElementById('val-e').textContent = s.E.toFixed(2);
     document.getElementById('val-i').textContent = s.I.toFixed(2);
-    document.getElementById('val-c').textContent = (s.C !== undefined ? s.C : this.dynamics.p.C).toFixed(2);
+    document.getElementById('val-c').textContent = cv;
     document.getElementById('val-b').textContent = s.B.toFixed(2);
+    // Mobile duplicates
+    const hm = document.getElementById('val-h-m');
+    if (hm) {
+      hm.textContent = s.H.toFixed(2);
+      document.getElementById('val-m-m').textContent = s.M.toFixed(2);
+      document.getElementById('val-e-m').textContent = s.E.toFixed(2);
+      document.getElementById('val-i-m').textContent = s.I.toFixed(2);
+      document.getElementById('val-c-m').textContent = cv;
+      document.getElementById('val-b-m').textContent = s.B.toFixed(2);
+    }
   }
 
   log(time, message, type = 'state') {

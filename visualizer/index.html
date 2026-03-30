@@ -10,60 +10,65 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0a0a0f; colo
 
 /* === DESKTOP: 3-column grid === */
 #app { display: grid; grid-template-columns: 260px 1fr 260px; grid-template-rows: 44px 1fr 140px; height: 100vh; height: 100dvh; }
-#header { grid-column: 1 / -1; background: #12121a; border-bottom: 1px solid #2a2a3a; display: flex; align-items: center; padding: 0 12px; gap: 12px; flex-wrap: wrap; }
+#header { grid-column: 1 / -1; background: #12121a; border-bottom: 1px solid #2a2a3a; display: flex; align-items: center; padding: 0 12px; gap: 8px; }
 #header h1 { font-size: 14px; font-weight: 600; color: #88aaff; white-space: nowrap; }
-#header .subtitle { font-size: 11px; color: #555; display: none; }
 
 #left-panel { background: #0f0f18; border-right: 1px solid #2a2a3a; overflow-y: auto; padding: 10px; }
 #canvas-area { position: relative; background: #080810; min-height: 200px; }
 #right-panel { background: #0f0f18; border-left: 1px solid #2a2a3a; overflow-y: auto; padding: 10px; }
 #log-panel { grid-column: 1 / -1; background: #0a0a12; border-top: 1px solid #2a2a3a; overflow-y: auto; padding: 6px 12px; font-family: 'Consolas', 'SF Mono', monospace; font-size: 10px; }
 
-/* Mobile tabs (hidden on desktop) */
-#mobile-tabs { display: none; }
+/* Hamburger (hidden on desktop) */
+#hamburger { display: none; }
+
+/* Mobile controls strip (hidden on desktop) */
+#mobile-controls { display: none; }
 
 canvas { width: 100%; height: 100%; display: block; }
 
-/* === MOBILE: single column with tabs === */
+/* === MOBILE === */
 @media (max-width: 900px) {
   #app {
     grid-template-columns: 1fr;
-    grid-template-rows: 40px 36px 1fr 120px;
+    grid-template-rows: 40px 1fr auto 100px;
   }
-  #header { padding: 0 8px; }
   #header h1 { font-size: 13px; }
-  #left-panel, #right-panel { display: none; border: none; }
-  #left-panel.mobile-active, #right-panel.mobile-active {
-    display: block;
-    position: absolute;
-    top: 76px; left: 0; right: 0; bottom: 120px;
-    z-index: 10;
-    overflow-y: auto;
-    border: none;
-  }
-  #canvas-area { min-height: 0; }
-  #canvas-area.mobile-hidden { display: none; }
+  #left-panel { display: none; border: none; }
+  #right-panel { display: none; border: none; }
   #log-panel { grid-column: 1; font-size: 9px; padding: 4px 8px; }
-  #mobile-tabs {
-    display: flex;
-    background: #12121a;
-    border-bottom: 1px solid #2a2a3a;
-    grid-column: 1;
+
+  /* Hamburger button */
+  #hamburger {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; background: #1a1a28; border: 1px solid #2a2a3a;
+    border-radius: 4px; cursor: pointer; font-size: 16px; color: #88aaff; flex-shrink: 0;
   }
-  #mobile-tabs .tab {
-    flex: 1;
-    text-align: center;
-    padding: 8px 4px;
-    font-size: 11px;
-    color: #666;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
+
+  /* Slide-out drawer */
+  #drawer {
+    position: fixed; top: 0; left: -300px; width: 290px; height: 100vh; height: 100dvh;
+    background: #0f0f18; border-right: 1px solid #2a2a3a; z-index: 50;
+    overflow-y: auto; padding: 10px; transition: left 0.25s ease;
   }
-  #mobile-tabs .tab.active {
-    color: #88aaff;
-    border-bottom-color: #4488cc;
+  #drawer.open { left: 0; }
+  #drawer-overlay {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5); z-index: 49;
   }
-  #speed-control { margin-left: 0; }
+  #drawer-overlay.open { display: block; }
+  #drawer-close {
+    float: right; background: none; border: none; color: #666; font-size: 20px;
+    cursor: pointer; padding: 4px 8px;
+  }
+
+  /* Mobile controls strip: always visible below canvas */
+  #mobile-controls {
+    display: block; background: #0f0f18; border-top: 1px solid #2a2a3a;
+    padding: 6px 8px; overflow-x: auto; overflow-y: hidden;
+  }
+  #mobile-controls .mc-row { display: flex; gap: 3px; align-items: center; margin-bottom: 4px; }
+  #mobile-controls .mc-row:last-child { margin-bottom: 0; }
+
   #speed-control .desktop-only { display: none; }
 }
 
@@ -105,7 +110,7 @@ input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14p
 .state-box.c .val { color: #aacc44; }
 
 .btn-row { display: flex; gap: 3px; margin-bottom: 6px; }
-.btn { padding: 5px 8px; background: #1a1a28; border: 1px solid #2a2a3a; border-radius: 4px; color: #ccc; font-size: 11px; cursor: pointer; flex: 1; text-align: center; }
+.btn { padding: 5px 8px; background: #1a1a28; border: 1px solid #2a2a3a; border-radius: 4px; color: #ccc; font-size: 11px; cursor: pointer; flex: 1; text-align: center; white-space: nowrap; }
 .btn:hover { background: #22223a; }
 .btn.primary { background: #1a3a5a; border-color: #2a5a8a; color: #88ccff; }
 .btn.danger { background: #3a1a1a; border-color: #5a2a2a; color: #ff8888; }
@@ -115,11 +120,12 @@ input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14p
 .log-entry .event { color: #cc8844; }
 .log-entry .state { color: #668888; }
 
-.view-toggle { display: flex; gap: 2px; margin-bottom: 6px; }
-.view-toggle .btn { font-size: 10px; padding: 4px 6px; }
+.view-toggle { display: flex; gap: 2px; margin-bottom: 6px; flex-wrap: wrap; }
+.view-toggle .btn { font-size: 10px; padding: 4px 6px; flex: 0 0 auto; }
 .view-toggle .btn.active { background: #1a3a5a; border-color: #4488cc; color: #88ccff; }
 
 select { width: 100%; padding: 5px; background: #1a1a28; border: 1px solid #2a2a3a; color: #ccc; border-radius: 4px; font-size: 11px; margin-bottom: 6px; }
+.select-inline { width: auto; margin: 0; flex: 1; }
 
 .ev-narrative { font-size: 10px; color: #99aabb; background: #10101a; border: 1px solid #1a1a2a; border-radius: 4px; padding: 5px 7px; margin-bottom: 5px; min-height: 28px; line-height: 1.35; font-style: italic; }
 
@@ -131,29 +137,26 @@ select { width: 100%; padding: 5px; background: #1a1a28; border: 1px solid #2a2a
 #speed-control label { font-size: 10px; color: #666; }
 #speed-control select { width: auto; margin: 0; }
 
-/* Tooltip system */
-.has-tip { position: relative; cursor: help; border-bottom: 1px dotted #444; }
 .tip-popup {
   display: none; position: fixed; z-index: 100;
   background: #181825; border: 1px solid #2a2a4a; border-radius: 6px;
   padding: 10px 12px; max-width: 320px; font-size: 11px; line-height: 1.45;
-  color: #bbc; box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-  pointer-events: none;
+  color: #bbc; box-shadow: 0 4px 16px rgba(0,0,0,0.5); pointer-events: none;
 }
 .tip-popup .tip-title { color: #88aaff; font-weight: 600; font-size: 12px; margin-bottom: 4px; }
 .tip-popup .tip-short { color: #99aabb; margin-bottom: 6px; }
 .tip-popup .tip-long { color: #889; font-size: 10px; }
-.has-tip:hover + .tip-popup, .has-tip:focus + .tip-popup { display: block; }
 
-.model-link { font-size: 11px; color: #6699cc; text-decoration: none; margin-left: 8px; }
+.model-link { font-size: 11px; color: #6699cc; text-decoration: none; }
 .model-link:hover { text-decoration: underline; color: #88bbee; }
 </style>
 </head>
 <body>
 <div id="app">
   <div id="header">
+    <div id="hamburger" onclick="toggleDrawer()">&#9776;</div>
     <h1>Habit Formation Dynamics</h1>
-    <a href="model.html" class="model-link" target="_blank">About the Model</a>
+    <a href="model.html" class="model-link" target="_blank">About</a>
     <div id="speed-control">
       <label class="desktop-only">Speed:</label>
       <select id="sim-speed">
@@ -168,12 +171,30 @@ select { width: 100%; padding: 5px; background: #1a1a28; border: 1px solid #2a2a
     </div>
   </div>
 
-  <div id="mobile-tabs">
-    <div class="tab active" data-panel="canvas">Sim</div>
-    <div class="tab" data-panel="left">Presets</div>
-    <div class="tab" data-panel="right">Controls</div>
+  <!-- Slide-out drawer for presets (mobile) -->
+  <div id="drawer-overlay" onclick="toggleDrawer()"></div>
+  <div id="drawer">
+    <button id="drawer-close" onclick="toggleDrawer()">&times;</button>
+    <div style="clear:both"></div>
+    <div class="section">
+      <div class="section-title" data-toggle="d-scenarios">Scenario Presets</div>
+      <div class="section-body" id="drawer-presets"></div>
+    </div>
+    <div class="section">
+      <div class="section-title" data-toggle="d-characters">Character Narratives</div>
+      <div class="section-body" id="drawer-characters"></div>
+    </div>
+    <div class="section">
+      <div class="section-title" data-toggle="d-params">Parameters</div>
+      <div class="section-body collapsed" id="drawer-params"></div>
+    </div>
+    <div class="section">
+      <div class="section-title" data-toggle="d-ic">Initial Conditions</div>
+      <div class="section-body collapsed" id="drawer-ic"></div>
+    </div>
   </div>
 
+  <!-- Desktop left panel -->
   <div id="left-panel">
     <div class="section">
       <div class="section-title" data-toggle="scenarios">Scenario Presets</div>
@@ -209,6 +230,7 @@ select { width: 100%; padding: 5px; background: #1a1a28; border: 1px solid #2a2a
     <canvas id="main-canvas"></canvas>
   </div>
 
+  <!-- Desktop right panel -->
   <div id="right-panel">
     <div class="section">
       <div class="section-title" data-toggle="state">Current State</div>
@@ -223,7 +245,6 @@ select { width: 100%; padding: 5px; background: #1a1a28; border: 1px solid #2a2a
         </div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-title" data-toggle="controls">Controls</div>
       <div class="section-body">
@@ -234,74 +255,32 @@ select { width: 100%; padding: 5px; background: #1a1a28; border: 1px solid #2a2a
         </div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-title collapsed" data-toggle="ic">Initial Conditions</div>
       <div class="section-body collapsed">
-        <div class="slider-group">
-          <div class="slider-label"><span>H<sub>0</sub></span><span class="value" id="ic-h-val">0.02</span></div>
-          <input type="range" id="ic-h" min="0" max="1" step="0.01" value="0.02">
-        </div>
-        <div class="slider-group">
-          <div class="slider-label"><span>M<sub>0</sub></span><span class="value" id="ic-m-val">1.00</span></div>
-          <input type="range" id="ic-m" min="0" max="4" step="0.05" value="1.0">
-        </div>
-        <div class="slider-group">
-          <div class="slider-label"><span>E<sub>0</sub></span><span class="value" id="ic-e-val">0.00</span></div>
-          <input type="range" id="ic-e" min="-2" max="3" step="0.1" value="0">
-        </div>
-        <div class="slider-group">
-          <div class="slider-label"><span>I<sub>0</sub></span><span class="value" id="ic-i-val">0.00</span></div>
-          <input type="range" id="ic-i" min="0" max="1" step="0.01" value="0">
-        </div>
+        <div class="slider-group"><div class="slider-label"><span>H<sub>0</sub></span><span class="value" id="ic-h-val">0.02</span></div><input type="range" id="ic-h" min="0" max="1" step="0.01" value="0.02"></div>
+        <div class="slider-group"><div class="slider-label"><span>M<sub>0</sub></span><span class="value" id="ic-m-val">1.00</span></div><input type="range" id="ic-m" min="0" max="4" step="0.05" value="1.0"></div>
+        <div class="slider-group"><div class="slider-label"><span>E<sub>0</sub></span><span class="value" id="ic-e-val">0.00</span></div><input type="range" id="ic-e" min="-2" max="3" step="0.1" value="0"></div>
+        <div class="slider-group"><div class="slider-label"><span>I<sub>0</sub></span><span class="value" id="ic-i-val">0.00</span></div><input type="range" id="ic-i" min="0" max="1" step="0.01" value="0"></div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-title collapsed" data-toggle="params">Parameters</div>
       <div class="section-body collapsed">
-        <div class="slider-group">
-          <div class="slider-label"><span>Complexity (C)</span><span class="value" id="p-c-val">0.50</span></div>
-          <input type="range" id="p-c" min="0.05" max="1" step="0.05" value="0.5">
-        </div>
-        <div class="slider-group">
-          <div class="slider-label"><span>H Growth (alpha)</span><span class="value" id="p-ah-val">0.045</span></div>
-          <input type="range" id="p-ah" min="0.01" max="0.15" step="0.005" value="0.045">
-        </div>
-        <div class="slider-group">
-          <div class="slider-label"><span>M Decay (beta)</span><span class="value" id="p-bm-val">0.15</span></div>
-          <input type="range" id="p-bm" min="0.05" max="0.4" step="0.01" value="0.15">
-        </div>
-        <div class="slider-group">
-          <div class="slider-label"><span>Reward (gamma)</span><span class="value" id="p-g-val">0.25</span></div>
-          <input type="range" id="p-g" min="0.05" max="0.5" step="0.01" value="0.25">
-        </div>
-        <div class="slider-group">
-          <div class="slider-label"><span>Effort (lambda)</span><span class="value" id="p-l-val">0.20</span></div>
-          <input type="range" id="p-l" min="0.05" max="0.6" step="0.01" value="0.2">
-        </div>
-        <div class="slider-group">
-          <div class="slider-label"><span>Indulgence (f0)</span><span class="value" id="p-f0-val">0.30</span></div>
-          <input type="range" id="p-f0" min="0" max="0.8" step="0.02" value="0.3">
-        </div>
-        <div class="slider-group">
-          <div class="slider-label"><span>WTH Thresh</span><span class="value" id="p-ewth-val">1.50</span></div>
-          <input type="range" id="p-ewth" min="0.5" max="3" step="0.1" value="1.5">
-        </div>
-        <div class="slider-group">
-          <div class="slider-label"><span>Noise</span><span class="value" id="p-noise-val">0.02</span></div>
-          <input type="range" id="p-noise" min="0" max="0.15" step="0.005" value="0.02">
-        </div>
+        <div class="slider-group"><div class="slider-label"><span>Complexity (C)</span><span class="value" id="p-c-val">0.50</span></div><input type="range" id="p-c" min="0.05" max="1" step="0.05" value="0.5"></div>
+        <div class="slider-group"><div class="slider-label"><span>H Growth (alpha)</span><span class="value" id="p-ah-val">0.045</span></div><input type="range" id="p-ah" min="0.01" max="0.15" step="0.005" value="0.045"></div>
+        <div class="slider-group"><div class="slider-label"><span>M Decay (beta)</span><span class="value" id="p-bm-val">0.15</span></div><input type="range" id="p-bm" min="0.05" max="0.4" step="0.01" value="0.15"></div>
+        <div class="slider-group"><div class="slider-label"><span>Reward (gamma)</span><span class="value" id="p-g-val">0.25</span></div><input type="range" id="p-g" min="0.05" max="0.5" step="0.01" value="0.25"></div>
+        <div class="slider-group"><div class="slider-label"><span>Effort (lambda)</span><span class="value" id="p-l-val">0.20</span></div><input type="range" id="p-l" min="0.05" max="0.6" step="0.01" value="0.2"></div>
+        <div class="slider-group"><div class="slider-label"><span>Indulgence (f0)</span><span class="value" id="p-f0-val">0.30</span></div><input type="range" id="p-f0" min="0" max="0.8" step="0.02" value="0.3"></div>
+        <div class="slider-group"><div class="slider-label"><span>WTH Thresh</span><span class="value" id="p-ewth-val">1.50</span></div><input type="range" id="p-ewth" min="0.5" max="3" step="0.1" value="1.5"></div>
+        <div class="slider-group"><div class="slider-label"><span>Noise</span><span class="value" id="p-noise-val">0.02</span></div><input type="range" id="p-noise" min="0" max="0.15" step="0.005" value="0.02"></div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-title" data-toggle="events">Inject Event</div>
       <div class="section-body">
-        <div class="slider-group">
-          <div class="slider-label"><span>Strength</span><span class="value" id="ev-str-val">3</span></div>
-          <input type="range" id="ev-strength" min="1" max="5" step="1" value="3">
-        </div>
+        <div class="slider-group"><div class="slider-label"><span>Strength</span><span class="value" id="ev-str-val">3</span></div><input type="range" id="ev-strength" min="1" max="5" step="1" value="3"></div>
         <div id="ev-narrative" class="ev-narrative"></div>
         <select id="ev-type-select">
           <option value="shock">Motivational Shock</option>
@@ -315,10 +294,46 @@ select { width: 100%; padding: 5px; background: #1a1a28; border: 1px solid #2a2a
           <option value="simplify">Simplify (reduce C)</option>
           <option value="escalate">Escalate (increase C)</option>
         </select>
-        <div class="btn-row">
-          <div class="btn primary" id="btn-inject">Inject Event</div>
-        </div>
+        <div class="btn-row"><div class="btn primary" id="btn-inject">Inject Event</div></div>
       </div>
+    </div>
+  </div>
+
+  <!-- Mobile controls strip: always visible below canvas -->
+  <div id="mobile-controls">
+    <div class="mc-row">
+      <div class="state-box h" data-tip="H" style="flex:1;padding:2px 4px"><div class="label" style="font-size:7px">H</div><div class="val" id="val-h-m" style="font-size:11px">0.00</div></div>
+      <div class="state-box m" data-tip="M" style="flex:1;padding:2px 4px"><div class="label" style="font-size:7px">M</div><div class="val" id="val-m-m" style="font-size:11px">0.00</div></div>
+      <div class="state-box e" data-tip="E" style="flex:1;padding:2px 4px"><div class="label" style="font-size:7px">E</div><div class="val" id="val-e-m" style="font-size:11px">0.00</div></div>
+      <div class="state-box i" data-tip="I" style="flex:1;padding:2px 4px"><div class="label" style="font-size:7px">I</div><div class="val" id="val-i-m" style="font-size:11px">0.00</div></div>
+      <div class="state-box c" data-tip="C" style="flex:1;padding:2px 4px"><div class="label" style="font-size:7px">C</div><div class="val" id="val-c-m" style="font-size:11px">0.50</div></div>
+      <div class="state-box b" data-tip="B" style="flex:1;padding:2px 4px"><div class="label" style="font-size:7px">B</div><div class="val" id="val-b-m" style="font-size:11px">0.00</div></div>
+    </div>
+    <div class="mc-row">
+      <div class="view-toggle" style="margin:0;flex:1">
+        <div class="btn active" data-view="hm" style="font-size:9px;padding:3px 5px">H-M</div>
+        <div class="btn" data-view="he" style="font-size:9px;padding:3px 5px">H-E</div>
+        <div class="btn" data-view="hc" style="font-size:9px;padding:3px 5px">H-C</div>
+        <div class="btn" data-view="time" style="font-size:9px;padding:3px 5px">Time</div>
+      </div>
+      <div class="btn primary" id="btn-play-m" style="font-size:9px;padding:3px 6px;flex:0">&#9654;</div>
+      <div class="btn" id="btn-pause-m" style="font-size:9px;padding:3px 6px;flex:0">&#10074;&#10074;</div>
+      <div class="btn danger" id="btn-reset-m" style="font-size:9px;padding:3px 6px;flex:0">&#8634;</div>
+    </div>
+    <div class="mc-row">
+      <select id="ev-type-select-m" class="select-inline" style="font-size:9px;padding:3px">
+        <option value="shock">Shock</option>
+        <option value="lapse">Lapse</option>
+        <option value="stress">Stress</option>
+        <option value="simplify">Simplify</option>
+        <option value="escalate">Escalate</option>
+        <option value="social">Social</option>
+        <option value="injury">Injury</option>
+        <option value="heal">Heal</option>
+      </select>
+      <input type="range" id="ev-strength-m" min="1" max="5" step="1" value="3" style="width:60px;flex:0 0 60px">
+      <span id="ev-str-val-m" style="font-size:9px;color:#aaccff;width:12px">3</span>
+      <div class="btn primary" id="btn-inject-m" style="font-size:9px;padding:3px 8px;flex:0">Inject</div>
     </div>
   </div>
 
@@ -327,53 +342,49 @@ select { width: 100%; padding: 5px; background: #1a1a28; border: 1px solid #2a2a
   </div>
 </div>
 
-<script src="dynamics.js?v=5"></script>
-<script src="scenarios.js?v=5"></script>
-<script src="events.js?v=5"></script>
-<script src="tooltips.js?v=5"></script>
-<script src="renderer.js?v=5"></script>
-<script src="app.js?v=5"></script>
+<script src="dynamics.js?v=7"></script>
+<script src="scenarios.js?v=7"></script>
+<script src="events.js?v=7"></script>
+<script src="tooltips.js?v=7"></script>
+<script src="renderer.js?v=7"></script>
+<script src="app.js?v=7"></script>
 <div class="tip-popup" id="tip-popup"></div>
 
 <script>
+// Drawer toggle
+function toggleDrawer() {
+  document.getElementById('drawer').classList.toggle('open');
+  document.getElementById('drawer-overlay').classList.toggle('open');
+}
+
 // Tooltip system
 (function() {
   const popup = document.getElementById('tip-popup');
   document.querySelectorAll('[data-tip]').forEach(el => {
     el.addEventListener('mouseenter', e => {
-      const key = el.dataset.tip;
-      const tip = (typeof TOOLTIPS !== 'undefined') ? TOOLTIPS[key] : null;
+      const tip = (typeof TOOLTIPS !== 'undefined') ? TOOLTIPS[el.dataset.tip] : null;
       if (!tip) return;
-      popup.innerHTML = '<div class="tip-title">' + tip.name + '</div>'
-        + '<div class="tip-short">' + tip.short + '</div>'
-        + '<div class="tip-long">' + tip.long + '</div>';
+      popup.innerHTML = '<div class="tip-title">' + tip.name + '</div><div class="tip-short">' + tip.short + '</div><div class="tip-long">' + tip.long + '</div>';
       popup.style.display = 'block';
       const rect = el.getBoundingClientRect();
       popup.style.left = Math.min(rect.left, window.innerWidth - 340) + 'px';
       popup.style.top = (rect.bottom + 6) + 'px';
     });
     el.addEventListener('mouseleave', () => { popup.style.display = 'none'; });
-    // Mobile: tap to toggle
     el.addEventListener('touchstart', e => {
       e.preventDefault();
-      const key = el.dataset.tip;
-      const tip = (typeof TOOLTIPS !== 'undefined') ? TOOLTIPS[key] : null;
+      const tip = (typeof TOOLTIPS !== 'undefined') ? TOOLTIPS[el.dataset.tip] : null;
       if (!tip) return;
-      if (popup.style.display === 'block') { popup.style.display = 'none'; return; }
-      popup.innerHTML = '<div class="tip-title">' + tip.name + '</div>'
-        + '<div class="tip-short">' + tip.short + '</div>'
-        + '<div class="tip-long">' + tip.long + '</div>';
-      popup.style.display = 'block';
+      popup.innerHTML = '<div class="tip-title">' + tip.name + '</div><div class="tip-short">' + tip.short + '</div><div class="tip-long">' + tip.long + '</div>';
+      popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
       popup.style.pointerEvents = 'auto';
       const rect = el.getBoundingClientRect();
       popup.style.left = Math.min(rect.left, window.innerWidth - 340) + 'px';
-      popup.style.top = (rect.bottom + 6) + 'px';
+      popup.style.top = Math.min(rect.bottom + 6, window.innerHeight - 120) + 'px';
     });
   });
   document.addEventListener('touchstart', e => {
-    if (!e.target.closest('[data-tip]') && !e.target.closest('.tip-popup')) {
-      popup.style.display = 'none';
-    }
+    if (!e.target.closest('[data-tip]') && !e.target.closest('.tip-popup')) popup.style.display = 'none';
   });
 })();
 
@@ -386,20 +397,58 @@ document.querySelectorAll('.section-title[data-toggle]').forEach(title => {
   });
 });
 
-// Mobile tabs
-document.querySelectorAll('#mobile-tabs .tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('#mobile-tabs .tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    const panel = tab.dataset.panel;
-    document.getElementById('left-panel').classList.toggle('mobile-active', panel === 'left');
-    document.getElementById('right-panel').classList.toggle('mobile-active', panel === 'right');
-    document.getElementById('canvas-area').classList.toggle('mobile-hidden', panel !== 'canvas');
-    // Resize canvas when switching back
-    if (panel === 'canvas' && window.app && window.app.renderer) {
-      setTimeout(() => window.app.renderer.resize(), 50);
-    }
+// Mobile controls: wire play/pause/reset
+document.getElementById('btn-play-m').addEventListener('click', () => window.app && window.app.play());
+document.getElementById('btn-pause-m').addEventListener('click', () => window.app && window.app.pause());
+document.getElementById('btn-reset-m').addEventListener('click', () => window.app && window.app.reset());
+
+// Mobile view toggles
+document.querySelectorAll('#mobile-controls .view-toggle .btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.view-toggle .btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    // Also sync desktop toggle
+    document.querySelectorAll('#left-panel .view-toggle .btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.view === btn.dataset.view);
+    });
+    if (window.app) window.app.renderer.setView(btn.dataset.view);
   });
+});
+
+// Mobile event injection
+document.getElementById('ev-strength-m').addEventListener('input', e => {
+  document.getElementById('ev-str-val-m').textContent = e.target.value;
+});
+document.getElementById('btn-inject-m').addEventListener('click', () => {
+  if (!window.app) return;
+  const type = document.getElementById('ev-type-select-m').value;
+  const str = parseInt(document.getElementById('ev-strength-m').value);
+  window.app.injectEvent(type, str);
+});
+
+// Populate drawer with clones of preset/character buttons (done after app init)
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    // Clone preset buttons into drawer
+    const dp = document.getElementById('drawer-presets');
+    const cp = document.getElementById('drawer-characters');
+    document.querySelectorAll('#preset-list .preset-btn').forEach(btn => {
+      const clone = btn.cloneNode(true);
+      clone.addEventListener('click', () => {
+        window.app.loadPreset(clone.dataset.key);
+        toggleDrawer();
+      });
+      dp.appendChild(clone);
+    });
+    document.querySelectorAll('#cluster-list .preset-btn').forEach(btn => {
+      const clone = btn.cloneNode(true);
+      clone.addEventListener('click', () => {
+        window.app.loadCluster(clone.dataset.key);
+        toggleDrawer();
+      });
+      cp.appendChild(clone);
+    });
+  }, 100);
 });
 </script>
 </body>
