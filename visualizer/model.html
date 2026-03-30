@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Habit Formation Model - Documentation</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0a0a0f; color: #d0d0d0; line-height: 1.65; }
+.container { max-width: 820px; margin: 0 auto; padding: 24px 20px 80px; }
+a { color: #6699cc; }
+h1 { color: #88aaff; font-size: 28px; margin-bottom: 8px; }
+.subtitle { color: #556; font-size: 14px; margin-bottom: 32px; }
+h2 { color: #88aaff; font-size: 20px; margin: 40px 0 12px; padding-bottom: 6px; border-bottom: 1px solid #1a1a2a; }
+h3 { color: #7799bb; font-size: 16px; margin: 24px 0 8px; }
+p { margin-bottom: 14px; color: #bbb; }
+code { background: #12121a; padding: 2px 6px; border-radius: 3px; font-family: 'SF Mono', 'Consolas', monospace; font-size: 13px; color: #aaccee; }
+pre { background: #0c0c14; border: 1px solid #1a1a2a; border-radius: 6px; padding: 14px 16px; overflow-x: auto; margin: 12px 0 18px; font-size: 12px; line-height: 1.5; color: #99bbdd; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0 18px; font-size: 13px; }
+th { background: #12121a; color: #7799aa; text-align: left; padding: 8px 10px; border-bottom: 1px solid #2a2a3a; }
+td { padding: 6px 10px; border-bottom: 1px solid #151520; color: #aaa; }
+.var-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-weight: 600; font-size: 12px; }
+.var-h { background: #44cc8822; color: #44cc88; }
+.var-m { background: #ff884422; color: #ff8844; }
+.var-e { background: #cc448822; color: #cc4488; }
+.var-i { background: #8844cc22; color: #8844cc; }
+.var-c { background: #aacc4422; color: #aacc44; }
+.var-b { background: #44aacc22; color: #44aacc; }
+.citation { color: #667; font-size: 12px; font-style: italic; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #6699cc; text-decoration: none; font-size: 13px; }
+.back-link:hover { text-decoration: underline; }
+.callout { background: #0f1520; border-left: 3px solid #4488cc; padding: 12px 16px; margin: 16px 0; border-radius: 0 6px 6px 0; }
+.callout p { margin-bottom: 0; color: #99aabb; }
+img { max-width: 100%; border-radius: 6px; margin: 12px 0; border: 1px solid #1a1a2a; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<a href="index.html" class="back-link">&larr; Back to Simulator</a>
+
+<h1>A Dynamical Systems Model of Habit Formation</h1>
+<p class="subtitle">H-M-E-I-C State Space Model with Literature-Grounded Dynamics</p>
+
+<h2>Overview</h2>
+<p>
+This model treats habit formation as a trajectory through a 5-dimensional state space.
+Success and failure emerge from the geometry of the space -- there are stable attractors
+(the sedentary state, the established habit state) separated by a boundary called the
+<strong>separatrix</strong>. Your trajectory through this space depends on your starting
+conditions, the events life throws at you, and crucially, the <strong>complexity</strong>
+of the behavior you're attempting.
+</p>
+
+<div class="callout">
+<p><strong>The core thesis:</strong> Start with the simplest possible version of the behavior.
+This keeps you below the separatrix, allowing habit strength to accumulate even as motivation
+naturally decays. Once automaticity is established, complexity can gradually increase.
+This is the bootstrapping strategy.</p>
+</div>
+
+<h2>State Variables</h2>
+
+<h3><span class="var-badge var-h">H</span> Habit Strength</h3>
+<p>
+How automatic the behavior has become. Ranges from 0 (no habit) to ~0.8 (highly automatic).
+Grows asymptotically when behavior occurs -- early repetitions matter most, with diminishing
+returns over time. The median time to reach 95% of the automaticity plateau is 66 days,
+ranging from 18 to 254 days depending on behavioral complexity.
+<span class="citation">Lally et al. (2010), European Journal of Social Psychology</span>
+</p>
+<p>
+H decays when behavior stops, but follows a nonlinear trajectory -- rapid initial drop,
+then stabilization at a residual floor. Old habits never fully reach zero.
+<span class="citation">Edgren et al. (2025), Applied Psychology: Health and Well-Being</span>
+</p>
+
+<h3><span class="var-badge var-m">M</span> Motivational Activation</h3>
+<p>
+The fast variable -- the current "fuel" for goal-directed behavior. M decays
+<strong>hyperbolically</strong> (steep initial drop, long tail), not exponentially.
+This matches temporal motivation theory and delay discounting research.
+<span class="citation">Steel & Konig (2006), Academy of Management Review</span>
+</p>
+<p>
+M is boosted by external events (health scares, social encouragement, New Year's resolutions)
+and by successful behavior (reward prediction error). It's drained by effort, stress, and
+indulgent fantasy. The key insight: once H is high enough, behavior continues even when M
+is low -- this is why habits survive motivation loss.
+</p>
+
+<h3><span class="var-badge var-e">E</span> Expectation Excess</h3>
+<p>
+The gap between what you expect and what's happening. Positive E means your expectations
+exceed reality ("I should be seeing results by now"). This variable drives two critical
+failure modes:
+</p>
+<p>
+<strong>False Hope Syndrome:</strong> When E goes very negative (expectations crushed by reality),
+M collapses. The cycle repeats: recommit &rarr; inflate expectations &rarr; fail to meet them &rarr;
+crash &rarr; recommit.
+<span class="citation">Polivy & Herman (2000, 2002), Current Directions in Psychological Science</span>
+</p>
+<p>
+<strong>The "What the Hell" Effect:</strong> When E goes very positive (perceived goal violation),
+M collapses catastrophically. One perceived failure triggers complete abandonment.
+<span class="citation">Cochran & Tesser (1996)</span>
+</p>
+
+<h3><span class="var-badge var-i">I</span> Identity Coherence</h3>
+<p>
+The slowest variable in the system (months to years). Represents the degree to which
+"I am someone who exercises" is part of your self-concept. Identity only grows when
+behavior is <em>both</em> occurring AND habitual -- you don't form an exerciser identity
+from a single gym visit.
+</p>
+<p>
+Once established, identity provides a restoring force on motivation (preventing total collapse)
+and raises the habit ceiling. Exercise identity is the strongest predictor of closing the
+intention-behavior gap (d = 0.73).
+<span class="citation">Rhodes, Kaushal & Quinlan (2016), Health Psychology Review; Berkman et al. (2017), Psychological Inquiry</span>
+</p>
+
+<h3><span class="var-badge var-c">C</span> Behavioral Complexity</h3>
+<p>
+How demanding the target behavior is. A daily 15-minute walk is C &asymp; 0.2; a 6-day gym
+split with meal prep is C &asymp; 0.9. Unlike the other variables, C was traditionally
+treated as a fixed parameter. Our model makes it <strong>dynamic</strong>: it adapts based
+on success and failure feedback.
+</p>
+<p>
+C has an <strong>equilibrium</strong> that depends on H: the sustainable complexity equals what
+your current habit strength can support. The daily walker (H&asymp;0.7, C&asymp;0.2) and the
+3x/week gym-goer (H&asymp;0.6, C&asymp;0.5) are genuinely different equilibria, not the
+same attractor viewed from different initial conditions.
+</p>
+
+<pre>C_equil(H, I) = C_min + (C_max - C_min) &times; H &times; (0.7 + 0.3 &times; I)</pre>
+
+<h2>The Behavioral Trigger</h2>
+<p>
+Behavior B is computed from two competing systems, reflecting the neuroscience of
+goal-directed vs habitual control:
+<span class="citation">Daw et al. (2005), Nature Neuroscience; Dolan & Dayan (2013), Neuron</span>
+</p>
+<p>
+<strong>Goal-directed component:</strong> A sigmoid function of M vs the behavioral threshold
+&theta; = C &times; (1 - H). When H is low, you need high M to act.
+</p>
+<p>
+<strong>Habitual component:</strong> H itself drives behavior, but still requires minimum M.
+Human habits are fragile -- five experimental attempts to produce outcome-insensitive habits
+in humans all failed.
+<span class="citation">de Wit et al. (2018), J. Experimental Psychology: General</span>
+</p>
+<p>
+The two components blend nonlinearly: at low H, behavior is mostly goal-directed; at high H,
+mostly habitual. A global activation gate ensures B = 0 when M is negligible -- you don't
+accidentally exercise.
+</p>
+
+<h2>The H-C Phase Portrait</h2>
+<p>
+The most revealing visualization of the model is the <strong>H-C phase portrait</strong>,
+which shows the landscape of possible trajectories in Habit-Complexity space.
+</p>
+
+<img src="../simulation/results/hc_phase_portrait.png" alt="H-C Phase Portrait">
+
+<p>The portrait reveals four distinct regions:</p>
+<p>
+<strong style="color:#44cc88">Stable Habit Basin</strong> (lower-right): High H, C matched to H via the equilibrium curve.
+Trajectories converge along the equilibrium manifold. This is where successful habit formers end up.
+</p>
+<p>
+<strong style="color:#cc4488">Complexity Trap</strong> (upper-left): High C, low H. The behavioral threshold
+is too high for available M to sustain behavior. Trajectories slide left toward sedentary. This is
+Sam's 6-day PPL split, Mei's half marathon plan -- too much too soon.
+</p>
+<p>
+<strong style="color:#aa5555">Sedentary Attractor</strong> (lower-left): A true fixed point. No behavior,
+no habit growth, no identity formation. Stable because the activation gate prevents behavior when M is negligible.
+</p>
+<p>
+<strong style="color:#ccaa44">The Separatrix</strong>: A sharp boundary between the success and failure basins.
+Starting above this line in C (for a given M) leads to failure; below leads to success. The separatrix's
+position depends on initial M -- higher motivation allows higher starting C.
+</p>
+
+<div class="callout">
+<p><strong>The bootstrapping strategy</strong> is geometrically equivalent to starting below the separatrix
+and riding the green trajectories into the stable habit basin. Simplify events move a red
+(failing) trajectory downward across the separatrix into the green basin.</p>
+</div>
+
+<h2>Key Dynamics</h2>
+
+<h3>Habit Growth (Asymptotic)</h3>
+<pre>dH/dt = alpha_H &times; B &times; (A(I) - H) - decay_rate &times; (1-B) &times; (H - H_min)</pre>
+<p>
+Growth slows as H approaches the ceiling (set by identity). Decay accelerates when behavior
+stops at high H (use-it-or-lose-it). The residual floor H_min means old habits never fully vanish.
+</p>
+
+<h3>Motivation Decay (Hyperbolic)</h3>
+<pre>dM/dt = -beta_M &times; M / (1+M)  +  reward  -  effort  -  indulgence  -  collapse  +  identity  +  social</pre>
+<p>
+Motivation is sustained by a balance of forces: reward from behavior (diminishing with habit strength),
+identity restoring force, social support floor, and habitual maintenance -- versus decay, effort cost,
+indulgence drain, stress, and potential collapse dynamics.
+</p>
+
+<h3>Complexity Adaptation (Equilibrium-Based)</h3>
+<pre>dC/dt = -alpha_C_down &times; overreach  +  alpha_C_up &times; underreach  +  identity_pull</pre>
+<p>
+When C exceeds what H can support AND behavior isn't happening, C drops (learning to simplify).
+When C is below what H can support AND behavior IS happening, C rises (progressive overload).
+Social support accelerates both directions.
+</p>
+
+<h3>The Indulgence Mechanism</h3>
+<p>
+When motivated but not acting, people fantasize about outcomes. This provides "phantom reward"
+that partially satisfies the motivational system without any behavior occurring. The effect is
+most damaging at low H, creating a quiet trap where M slowly leaks away.
+<span class="citation">Kappes & Oettingen (2011), J. Experimental Social Psychology</span>
+</p>
+
+<h2>Event System</h2>
+<p>
+Life events are modeled as <strong>impulses</strong> -- instantaneous modifications to state,
+not gradual rate changes. This reflects the discontinuous nature of real-world events.
+</p>
+
+<table>
+<tr><th>Event</th><th>Primary Effect</th><th>Secondary Effect</th></tr>
+<tr><td>Motivational Shock</td><td>M boost</td><td>E inflates (expectations rise)</td></tr>
+<tr><td>Lapse / Slip</td><td>E spikes, M drops</td><td>Psychological impact &gt;&gt; habit impact</td></tr>
+<tr><td>Stress</td><td>M drain, threshold rises</td><td>Buffered by social support</td></tr>
+<tr><td>Simplify</td><td>C drops directly</td><td>M boost from renewed achievability</td></tr>
+<tr><td>Escalate</td><td>C rises</td><td>E inflates (ambitious expectations)</td></tr>
+<tr><td>Social Support</td><td>Persistent M floor</td><td>Stress buffer, C adaptation speed</td></tr>
+<tr><td>Context Disruption</td><td>H resets partially</td><td>Cue-behavior associations broken</td></tr>
+<tr><td>Implementation Intention</td><td>Threshold reduced</td><td>Proto-habit creation</td></tr>
+</table>
+
+<h2>Calibration</h2>
+<p>
+The model was calibrated against 2,100 synthetic 2-year simulations spanning 21 diverse
+individuals (ages 19-67, multiple genders, occupations, fitness goals) with 100 event
+streams each. Event streams were generated via inhomogeneous Poisson processes biased by
+backstory and trajectory archetypes.
+</p>
+<p>
+Results were compared against literature-derived targets from Oscarsson et al. (2020),
+Norcross et al. (2002), Kwasnicka et al. (2016), and Lally et al. (2010). Key metrics
+like dropout rates at 60 days (63% vs target 50-80%) and activity at 6 months (40% vs
+target 25-50%) fall within empirical ranges.
+</p>
+
+<h2>Literature Foundation</h2>
+<p>
+The model synthesizes findings from 70+ papers across performance psychology, affective dynamics,
+neuroscience of reward signaling, and behavioral science. Key theoretical foundations include:
+</p>
+<table>
+<tr><th>Concept</th><th>Source</th><th>Model Element</th></tr>
+<tr><td>Asymptotic habit formation</td><td>Lally et al. (2010)</td><td>dH/dt growth term</td></tr>
+<tr><td>Hyperbolic temporal discounting</td><td>Steel & Konig (2006)</td><td>M decay form</td></tr>
+<tr><td>False hope syndrome</td><td>Polivy & Herman (2000)</td><td>E &rarr; M collapse</td></tr>
+<tr><td>Phantom reward of fantasy</td><td>Kappes & Oettingen (2011)</td><td>Indulgence mechanism F(t)</td></tr>
+<tr><td>Reward prediction error</td><td>Schultz (2016)</td><td>Diminishing reward term</td></tr>
+<tr><td>Stress-habit shift</td><td>Schwabe & Wolf (2009)</td><td>Stress &rarr; threshold</td></tr>
+<tr><td>Fragile human habits</td><td>de Wit et al. (2018)</td><td>B requires minimum M</td></tr>
+<tr><td>Exercise identity</td><td>Rhodes et al. (2016)</td><td>Identity variable I</td></tr>
+<tr><td>Identity-value model</td><td>Berkman et al. (2017)</td><td>I &rarr; M, I &rarr; A</td></tr>
+<tr><td>Cybernetic self-regulation</td><td>Carver & Scheier (1982)</td><td>Velocity meta-loop</td></tr>
+<tr><td>Opportunity cost of effort</td><td>Kurzban et al. (2013)</td><td>Effort as cost, not depletion</td></tr>
+<tr><td>Implementation intentions</td><td>Gollwitzer (1999)</td><td>Threshold reduction events</td></tr>
+<tr><td>Nonlinear habit decay</td><td>Edgren et al. (2025)</td><td>Residual floor, logistic decay</td></tr>
+<tr><td>Dual-system behavioral control</td><td>Daw et al. (2005)</td><td>B_goal + B_habit blend</td></tr>
+<tr><td>Habit discontinuity</td><td>Verplanken & Roy (2016)</td><td>Context disruption events</td></tr>
+</table>
+
+<p style="margin-top:40px; color:#445; font-size:12px; text-align:center;">
+Model and visualizer by Kevin Horecka. Source code and full citation library available on
+<a href="https://github.com/kevroy314/nerdfit">GitHub</a>.
+</p>
+
+</div>
+</body>
+</html>

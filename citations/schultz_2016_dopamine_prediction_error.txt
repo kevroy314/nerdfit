@@ -1,0 +1,10 @@
+Schultz, W. (2016).
+Dopamine reward prediction error coding.
+Dialogues in Clinical Neuroscience, 18(1), 23-32.
+DOI: 10.31887/DCNS.2016.18.1/wschultz
+PMID: 27069377
+
+Key finding: Dopamine neurons encode prediction error (actual minus expected reward),
+not absolute reward magnitude. Fully predicted rewards generate no response. This
+grounds the reward term in the model as gamma * B * (1-H^2) -- reward signal
+diminishes as behavior becomes habitual and predictable.

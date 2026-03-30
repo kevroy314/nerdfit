@@ -1,0 +1,22 @@
+Cochran, W., & Tesser, A. (1996).
+The "what the hell" effect: Some effects of goal proximity and goal framing on performance.
+In L. Martin & A. Tesser (Eds.), Striving and Feeling: Interactions Among Goals,
+Affect, and Self-Regulation. Lawrence Erlbaum Associates.
+
+Also:
+Polivy, J., & Herman, C. P. (1985).
+Dieting and binging: A causal analysis.
+American Psychologist, 40(2), 193-201.
+
+KEY FINDINGS:
+- When goal-setters perceive they have already violated their goal, they experience
+  a cognitive shift leading to complete abandonment of restraint
+- "What the hell, I already blew it" -- all-or-nothing response to perceived violation
+- Especially pronounced with short-term, all-or-nothing goal framing
+- Begins with failing a goal or breaking a streak -> guilt -> overindulging to soothe guilt
+- Counter-regulatory eating: restrained eaters who perceive they have exceeded their
+  diet boundary eat MORE than unrestrained eaters
+- Inhibitory goals benefit from long-term framing
+- Flexible approaches (allowing small portions of wide range of foods) reduce the effect
+- MODEL IMPLICATION: Nonlinear/catastrophic collapse in motivation, not gradual decline
+  Suggests bifurcation when E > E_critical

@@ -1,0 +1,20 @@
+Christakis, N. A., & Fowler, J. H. (2007).
+The spread of obesity in a large social network over 32 years.
+New England Journal of Medicine, 357(4), 370-379.
+DOI: 10.1056/NEJMsa066082
+PMID: 17652652
+
+KEY FINDINGS:
+- Framingham Heart Study network: 12,067 people, 32 years
+- Friend becoming obese: +57% risk for the individual
+- Mutual friend becoming obese: +171% risk
+- Among siblings: +40% risk
+- Among spouses: +37% risk
+- Influence extended to three degrees of separation
+- Similar effects found for smoking cessation and happiness
+
+METHODOLOGICAL NOTES:
+- Critiqued by Cohen-Cole & Fletcher (2008) for potential confounding
+  by shared environments and homophily
+- Social contagion effect likely real but magnitude may be overstated
+- Statistical methods for separating contagion from homophily remain debated

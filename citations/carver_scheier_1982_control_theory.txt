@@ -1,0 +1,30 @@
+Carver, C. S., & Scheier, M. F. (1982).
+Control theory: A useful conceptual framework for personality-social, clinical, and health psychology.
+Psychological Bulletin, 92(1), 111-135.
+DOI: 10.1037/0033-2909.92.1.111
+PMID: 7134324
+
+Also:
+Carver, C. S. (2018).
+Control theory, goal attainment, and psychopathology.
+Psychological Inquiry, 29(3), 139-144.
+DOI: 10.1080/1047840X.2018.1513681
+PMID: 31447528
+URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC6707771/
+
+Also:
+Carver, C. S., & Scheier, M. F. (1998).
+On the Self-Regulation of Behavior. Cambridge University Press.
+
+KEY CLAIMS:
+- Behavior regulated by negative feedback loops: input perception, reference value (goal),
+  comparison function, output behavior
+- TWO types of loops: (1) behavior-goal discrepancy (direction), (2) rate of progress
+  toward discrepancy reduction (velocity)
+- Velocity meta-loop generates affect: positive affect when progress exceeds expectations,
+  negative when it falls short
+- Meta-loop governs goal engagement vs. disengagement
+- Hierarchical control: abstract goals disaggregate into concrete subordinate objectives
+- Confidence/doubt about progress triggers effort changes or goal disengagement
+- Sources of dysfunction: misperceiving current state, unrealistic goals, calibration
+  extremes (perfectionism vs. laxness), lacking effective action knowledge

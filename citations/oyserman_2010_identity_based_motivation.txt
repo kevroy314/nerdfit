@@ -1,0 +1,20 @@
+Oyserman, D., & Destin, M. (2010).
+Identity-based motivation: Implications for intervention.
+The Counseling Psychologist, 38(7), 1001-1043.
+DOI: 10.1177/0011000010374775
+PMID: 21516204
+URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC3079278/
+
+THREE CORE PRINCIPLES OF IBM THEORY:
+1. Action-Readiness: Identities activate preparedness to behave and interpret
+   situations through the lens of norms, values, and behaviors relevant to the identity.
+2. Dynamic Construction: Which identities become salient, their meaning, and
+   associated behaviors are actively constructed by features of immediate contexts
+   despite feeling stable.
+3. Interpretation of Difficulty: When behavior feels identity-aligned, encountered
+   obstacles are understood as indicating importance; when misaligned, difficulty
+   suggests the behavior is pointless and "not for people like me."
+
+KEY IMPLICATION FOR MODEL:
+The same expectation gap (E) could be motivating or demoralizing depending on
+identity congruence. This is a qualitative shift requiring an identity variable.

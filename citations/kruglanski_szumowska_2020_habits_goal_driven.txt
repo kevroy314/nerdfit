@@ -1,0 +1,24 @@
+Kruglanski, A. W., & Szumowska, E. (2020).
+Habitual behavior is goal-driven.
+Perspectives on Psychological Science, 15(5), 1256-1271.
+DOI: 10.1177/1745691620917676
+PMID: 32569529
+
+Also:
+Kruglanski, A. W., et al. (2002).
+A theory of goal systems.
+Advances in Experimental Social Psychology, 34, 331-378.
+DOI: 10.1016/S0065-2601(02)80008-9
+
+KEY CLAIMS:
+- Habitual behavior is sensitive to changes in goal properties (reward value, expectancy)
+- Adjustment may be slower for habitual than non-habitual behavior due to
+  routinized/automatic nature (reduced attention to consequences)
+- Prolonged persistence of habits despite detachment from original goal likely stems
+  from attachment to a DIFFERENT goal
+- No need to postulate purposeless behavior
+- Goal systems organized as hierarchical networks with:
+  - Equifinality: multiple means to one goal
+  - Multifinality: one means serving multiple goals
+  - Counterfinality: means that serve one goal but undermine another
+- Goals and identities stored in memory in interconnected, hierarchical structure

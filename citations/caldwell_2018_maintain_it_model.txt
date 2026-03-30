@@ -1,0 +1,22 @@
+Caldwell, A. E., Masters, K. S., Peters, J. C., Bryan, A. D., Grigsby, J.,
+Hooker, S. A., Wyatt, H. R., & Hill, J. O. (2018).
+Harnessing Centered Identity Transformation to Reduce Executive Function Burden
+for Maintenance of Health Behavior Change: The Maintain IT Model.
+Health Psychology Review, 12(1), 35-69.
+DOI: 10.1080/17437199.2018.1437551
+PMID: 29402182
+URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC6124500/
+
+KEY CLAIMS:
+- Sustainable behavior change requires reducing reliance on effortful executive function
+- Successful maintenance involves integrating health behaviors into identity
+- "Centered identity" encompasses five dimensions:
+  1. Behavior-based identity (identifying as someone who performs the behavior)
+  2. Role and group-based identities (family, social affiliations)
+  3. Personal values alignment
+  4. Perceptual lens (attributional style and implicit theories about changeability)
+  5. Psychological well-being (eudaimonic dimensions)
+- As behavior becomes part of identity, it requires less effortful self-regulation
+- Increases resilience during setbacks
+- Recommends helping individuals examine fundamental identity components and
+  align behaviors with core values

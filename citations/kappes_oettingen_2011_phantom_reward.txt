@@ -1,0 +1,8 @@
+Kappes, H. B. & Oettingen, G. (2011).
+Positive fantasies about idealized futures sap energy.
+Journal of Experimental Social Psychology, 47(4), 719-729.
+DOI: 10.1016/j.jesp.2011.02.003
+
+Key finding: Positive fantasy drops systolic blood pressure and reduces energization.
+The brain treats vivid fantasy as partial goal achievement. Grounds the indulgence/
+phantom reward mechanism: F(t) = f_0 * M * (1-B), draining M without incrementing H.

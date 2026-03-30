@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Habit Formation Dynamics</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0a0a0f; color: #e0e0e0; overflow: hidden; height: 100vh; height: 100dvh; }
+
+/* === DESKTOP: 3-column grid === */
+#app { display: grid; grid-template-columns: 260px 1fr 260px; grid-template-rows: 44px 1fr 140px; height: 100vh; height: 100dvh; }
+#header { grid-column: 1 / -1; background: #12121a; border-bottom: 1px solid #2a2a3a; display: flex; align-items: center; padding: 0 12px; gap: 12px; flex-wrap: wrap; }
+#header h1 { font-size: 14px; font-weight: 600; color: #88aaff; white-space: nowrap; }
+#header .subtitle { font-size: 11px; color: #555; display: none; }
+
+#left-panel { background: #0f0f18; border-right: 1px solid #2a2a3a; overflow-y: auto; padding: 10px; }
+#canvas-area { position: relative; background: #080810; min-height: 200px; }
+#right-panel { background: #0f0f18; border-left: 1px solid #2a2a3a; overflow-y: auto; padding: 10px; }
+#log-panel { grid-column: 1 / -1; background: #0a0a12; border-top: 1px solid #2a2a3a; overflow-y: auto; padding: 6px 12px; font-family: 'Consolas', 'SF Mono', monospace; font-size: 10px; }
+
+/* Mobile tabs (hidden on desktop) */
+#mobile-tabs { display: none; }
+
+canvas { width: 100%; height: 100%; display: block; }
+
+/* === MOBILE: single column with tabs === */
+@media (max-width: 900px) {
+  #app {
+    grid-template-columns: 1fr;
+    grid-template-rows: 40px 36px 1fr 120px;
+  }
+  #header { padding: 0 8px; }
+  #header h1 { font-size: 13px; }
+  #left-panel, #right-panel { display: none; border: none; }
+  #left-panel.mobile-active, #right-panel.mobile-active {
+    display: block;
+    position: absolute;
+    top: 76px; left: 0; right: 0; bottom: 120px;
+    z-index: 10;
+    overflow-y: auto;
+    border: none;
+  }
+  #canvas-area { min-height: 0; }
+  #canvas-area.mobile-hidden { display: none; }
+  #log-panel { grid-column: 1; font-size: 9px; padding: 4px 8px; }
+  #mobile-tabs {
+    display: flex;
+    background: #12121a;
+    border-bottom: 1px solid #2a2a3a;
+    grid-column: 1;
+  }
+  #mobile-tabs .tab {
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px;
+    font-size: 11px;
+    color: #666;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+  #mobile-tabs .tab.active {
+    color: #88aaff;
+    border-bottom-color: #4488cc;
+  }
+  #speed-control { margin-left: 0; }
+  #speed-control .desktop-only { display: none; }
+}
+
+/* === COMPONENTS === */
+.section { margin-bottom: 14px; }
+.section-title {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
+  color: #6688aa; margin-bottom: 6px; padding-bottom: 3px; border-bottom: 1px solid #1a1a2a;
+  cursor: pointer; user-select: none;
+}
+.section-title::after { content: ' \25BE'; font-size: 8px; }
+.section-title.collapsed::after { content: ' \25B8'; }
+.section-body.collapsed { display: none; }
+
+.preset-btn {
+  width: 100%; padding: 6px 8px; margin-bottom: 3px; background: #1a1a28;
+  border: 1px solid #2a2a3a; border-radius: 4px; color: #ccc; font-size: 11px;
+  cursor: pointer; text-align: left; transition: all 0.15s;
+}
+.preset-btn:hover { background: #22223a; border-color: #4466aa; }
+.preset-btn.active { background: #1a2a4a; border-color: #4488cc; color: #88bbff; }
+.preset-btn .tag { font-size: 9px; color: #666; display: block; margin-top: 1px; }
+
+.slider-group { margin-bottom: 8px; }
+.slider-label { display: flex; justify-content: space-between; font-size: 10px; color: #888; margin-bottom: 2px; }
+.slider-label .value { color: #aaccff; font-family: monospace; }
+input[type="range"] { width: 100%; height: 4px; -webkit-appearance: none; background: #1a1a2a; border-radius: 2px; outline: none; }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: #4488cc; border-radius: 50%; cursor: pointer; }
+
+.state-display { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 10px; }
+.state-box { background: #12121a; border: 1px solid #2a2a3a; border-radius: 4px; padding: 4px 6px; text-align: center; }
+.state-box .label { font-size: 8px; color: #666; text-transform: uppercase; }
+.state-box .val { font-size: 14px; font-weight: 700; font-family: monospace; }
+.state-box.h .val { color: #44cc88; }
+.state-box.m .val { color: #ff8844; }
+.state-box.e .val { color: #cc4488; }
+.state-box.i .val { color: #8844cc; }
+.state-box.b .val { color: #44aacc; }
+.state-box.c .val { color: #aacc44; }
+
+.btn-row { display: flex; gap: 3px; margin-bottom: 6px; }
+.btn { padding: 5px 8px; background: #1a1a28; border: 1px solid #2a2a3a; border-radius: 4px; color: #ccc; font-size: 11px; cursor: pointer; flex: 1; text-align: center; }
+.btn:hover { background: #22223a; }
+.btn.primary { background: #1a3a5a; border-color: #2a5a8a; color: #88ccff; }
+.btn.danger { background: #3a1a1a; border-color: #5a2a2a; color: #ff8888; }
+
+.log-entry { padding: 1px 0; border-bottom: 1px solid #111118; }
+.log-entry .time { color: #4466aa; display: inline-block; width: 50px; }
+.log-entry .event { color: #cc8844; }
+.log-entry .state { color: #668888; }
+
+.view-toggle { display: flex; gap: 2px; margin-bottom: 6px; }
+.view-toggle .btn { font-size: 10px; padding: 4px 6px; }
+.view-toggle .btn.active { background: #1a3a5a; border-color: #4488cc; color: #88ccff; }
+
+select { width: 100%; padding: 5px; background: #1a1a28; border: 1px solid #2a2a3a; color: #ccc; border-radius: 4px; font-size: 11px; margin-bottom: 6px; }
+
+.ev-narrative { font-size: 10px; color: #99aabb; background: #10101a; border: 1px solid #1a1a2a; border-radius: 4px; padding: 5px 7px; margin-bottom: 5px; min-height: 28px; line-height: 1.35; font-style: italic; }
+
+.legend { font-size: 9px; margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.legend-item { display: flex; align-items: center; gap: 4px; }
+.legend-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+#speed-control { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+#speed-control label { font-size: 10px; color: #666; }
+#speed-control select { width: auto; margin: 0; }
+
+/* Tooltip system */
+.has-tip { position: relative; cursor: help; border-bottom: 1px dotted #444; }
+.tip-popup {
+  display: none; position: fixed; z-index: 100;
+  background: #181825; border: 1px solid #2a2a4a; border-radius: 6px;
+  padding: 10px 12px; max-width: 320px; font-size: 11px; line-height: 1.45;
+  color: #bbc; box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
+.tip-popup .tip-title { color: #88aaff; font-weight: 600; font-size: 12px; margin-bottom: 4px; }
+.tip-popup .tip-short { color: #99aabb; margin-bottom: 6px; }
+.tip-popup .tip-long { color: #889; font-size: 10px; }
+.has-tip:hover + .tip-popup, .has-tip:focus + .tip-popup { display: block; }
+
+.model-link { font-size: 11px; color: #6699cc; text-decoration: none; margin-left: 8px; }
+.model-link:hover { text-decoration: underline; color: #88bbee; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="header">
+    <h1>Habit Formation Dynamics</h1>
+    <a href="model.html" class="model-link" target="_blank">About the Model</a>
+    <div id="speed-control">
+      <label class="desktop-only">Speed:</label>
+      <select id="sim-speed">
+        <option value="0.5">0.5x</option>
+        <option value="1" selected>1x</option>
+        <option value="2">2x</option>
+        <option value="5">5x</option>
+        <option value="10">10x</option>
+        <option value="50">50x</option>
+      </select>
+      <label>Day <span id="day-display">0</span></label>
+    </div>
+  </div>
+
+  <div id="mobile-tabs">
+    <div class="tab active" data-panel="canvas">Sim</div>
+    <div class="tab" data-panel="left">Presets</div>
+    <div class="tab" data-panel="right">Controls</div>
+  </div>
+
+  <div id="left-panel">
+    <div class="section">
+      <div class="section-title" data-toggle="scenarios">Scenario Presets</div>
+      <div class="section-body" id="preset-list"></div>
+    </div>
+    <div class="section">
+      <div class="section-title" data-toggle="characters">Character Narratives</div>
+      <div class="section-body" id="cluster-list"></div>
+    </div>
+    <div class="section">
+      <div class="section-title" data-toggle="view">View</div>
+      <div class="section-body">
+        <div class="view-toggle">
+          <div class="btn active" data-view="hm">H-M</div>
+          <div class="btn" data-view="he">H-E</div>
+          <div class="btn" data-view="hc">H-C</div>
+          <div class="btn" data-view="time">Time</div>
+          <div class="btn" data-view="phase">Phase</div>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#44cc88"></div>H</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ff8844"></div>M</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#cc4488"></div>E</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#8844cc"></div>I</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#aacc44"></div>C</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#44aacc"></div>B</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="canvas-area">
+    <canvas id="main-canvas"></canvas>
+  </div>
+
+  <div id="right-panel">
+    <div class="section">
+      <div class="section-title" data-toggle="state">Current State</div>
+      <div class="section-body">
+        <div class="state-display">
+          <div class="state-box h" data-tip="H"><div class="label">Habit</div><div class="val" id="val-h">0.00</div></div>
+          <div class="state-box m" data-tip="M"><div class="label">Motiv</div><div class="val" id="val-m">0.00</div></div>
+          <div class="state-box e" data-tip="E"><div class="label">Expect</div><div class="val" id="val-e">0.00</div></div>
+          <div class="state-box i" data-tip="I"><div class="label">Ident</div><div class="val" id="val-i">0.00</div></div>
+          <div class="state-box c" data-tip="C"><div class="label">Complx</div><div class="val" id="val-c">0.50</div></div>
+          <div class="state-box b" data-tip="B"><div class="label">Behav</div><div class="val" id="val-b">0.00</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" data-toggle="controls">Controls</div>
+      <div class="section-body">
+        <div class="btn-row">
+          <div class="btn primary" id="btn-play">Play</div>
+          <div class="btn" id="btn-pause">Pause</div>
+          <div class="btn danger" id="btn-reset">Reset</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title collapsed" data-toggle="ic">Initial Conditions</div>
+      <div class="section-body collapsed">
+        <div class="slider-group">
+          <div class="slider-label"><span>H<sub>0</sub></span><span class="value" id="ic-h-val">0.02</span></div>
+          <input type="range" id="ic-h" min="0" max="1" step="0.01" value="0.02">
+        </div>
+        <div class="slider-group">
+          <div class="slider-label"><span>M<sub>0</sub></span><span class="value" id="ic-m-val">1.00</span></div>
+          <input type="range" id="ic-m" min="0" max="4" step="0.05" value="1.0">
+        </div>
+        <div class="slider-group">
+          <div class="slider-label"><span>E<sub>0</sub></span><span class="value" id="ic-e-val">0.00</span></div>
+          <input type="range" id="ic-e" min="-2" max="3" step="0.1" value="0">
+        </div>
+        <div class="slider-group">
+          <div class="slider-label"><span>I<sub>0</sub></span><span class="value" id="ic-i-val">0.00</span></div>
+          <input type="range" id="ic-i" min="0" max="1" step="0.01" value="0">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title collapsed" data-toggle="params">Parameters</div>
+      <div class="section-body collapsed">
+        <div class="slider-group">
+          <div class="slider-label"><span>Complexity (C)</span><span class="value" id="p-c-val">0.50</span></div>
+          <input type="range" id="p-c" min="0.05" max="1" step="0.05" value="0.5">
+        </div>
+        <div class="slider-group">
+          <div class="slider-label"><span>H Growth (alpha)</span><span class="value" id="p-ah-val">0.045</span></div>
+          <input type="range" id="p-ah" min="0.01" max="0.15" step="0.005" value="0.045">
+        </div>
+        <div class="slider-group">
+          <div class="slider-label"><span>M Decay (beta)</span><span class="value" id="p-bm-val">0.15</span></div>
+          <input type="range" id="p-bm" min="0.05" max="0.4" step="0.01" value="0.15">
+        </div>
+        <div class="slider-group">
+          <div class="slider-label"><span>Reward (gamma)</span><span class="value" id="p-g-val">0.25</span></div>
+          <input type="range" id="p-g" min="0.05" max="0.5" step="0.01" value="0.25">
+        </div>
+        <div class="slider-group">
+          <div class="slider-label"><span>Effort (lambda)</span><span class="value" id="p-l-val">0.20</span></div>
+          <input type="range" id="p-l" min="0.05" max="0.6" step="0.01" value="0.2">
+        </div>
+        <div class="slider-group">
+          <div class="slider-label"><span>Indulgence (f0)</span><span class="value" id="p-f0-val">0.30</span></div>
+          <input type="range" id="p-f0" min="0" max="0.8" step="0.02" value="0.3">
+        </div>
+        <div class="slider-group">
+          <div class="slider-label"><span>WTH Thresh</span><span class="value" id="p-ewth-val">1.50</span></div>
+          <input type="range" id="p-ewth" min="0.5" max="3" step="0.1" value="1.5">
+        </div>
+        <div class="slider-group">
+          <div class="slider-label"><span>Noise</span><span class="value" id="p-noise-val">0.02</span></div>
+          <input type="range" id="p-noise" min="0" max="0.15" step="0.005" value="0.02">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" data-toggle="events">Inject Event</div>
+      <div class="section-body">
+        <div class="slider-group">
+          <div class="slider-label"><span>Strength</span><span class="value" id="ev-str-val">3</span></div>
+          <input type="range" id="ev-strength" min="1" max="5" step="1" value="3">
+        </div>
+        <div id="ev-narrative" class="ev-narrative"></div>
+        <select id="ev-type-select">
+          <option value="shock">Motivational Shock</option>
+          <option value="lapse">Lapse / Slip</option>
+          <option value="stress">Stress Event</option>
+          <option value="context">Context Disruption</option>
+          <option value="injury">Injury (start)</option>
+          <option value="heal">Heal (end injury)</option>
+          <option value="social">Social Encouragement</option>
+          <option value="impl_intention">Implementation Intention</option>
+          <option value="simplify">Simplify (reduce C)</option>
+          <option value="escalate">Escalate (increase C)</option>
+        </select>
+        <div class="btn-row">
+          <div class="btn primary" id="btn-inject">Inject Event</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="log-panel">
+    <div id="log-content"></div>
+  </div>
+</div>
+
+<script src="dynamics.js?v=5"></script>
+<script src="scenarios.js?v=5"></script>
+<script src="events.js?v=5"></script>
+<script src="tooltips.js?v=5"></script>
+<script src="renderer.js?v=5"></script>
+<script src="app.js?v=5"></script>
+<div class="tip-popup" id="tip-popup"></div>
+
+<script>
+// Tooltip system
+(function() {
+  const popup = document.getElementById('tip-popup');
+  document.querySelectorAll('[data-tip]').forEach(el => {
+    el.addEventListener('mouseenter', e => {
+      const key = el.dataset.tip;
+      const tip = (typeof TOOLTIPS !== 'undefined') ? TOOLTIPS[key] : null;
+      if (!tip) return;
+      popup.innerHTML = '<div class="tip-title">' + tip.name + '</div>'
+        + '<div class="tip-short">' + tip.short + '</div>'
+        + '<div class="tip-long">' + tip.long + '</div>';
+      popup.style.display = 'block';
+      const rect = el.getBoundingClientRect();
+      popup.style.left = Math.min(rect.left, window.innerWidth - 340) + 'px';
+      popup.style.top = (rect.bottom + 6) + 'px';
+    });
+    el.addEventListener('mouseleave', () => { popup.style.display = 'none'; });
+    // Mobile: tap to toggle
+    el.addEventListener('touchstart', e => {
+      e.preventDefault();
+      const key = el.dataset.tip;
+      const tip = (typeof TOOLTIPS !== 'undefined') ? TOOLTIPS[key] : null;
+      if (!tip) return;
+      if (popup.style.display === 'block') { popup.style.display = 'none'; return; }
+      popup.innerHTML = '<div class="tip-title">' + tip.name + '</div>'
+        + '<div class="tip-short">' + tip.short + '</div>'
+        + '<div class="tip-long">' + tip.long + '</div>';
+      popup.style.display = 'block';
+      popup.style.pointerEvents = 'auto';
+      const rect = el.getBoundingClientRect();
+      popup.style.left = Math.min(rect.left, window.innerWidth - 340) + 'px';
+      popup.style.top = (rect.bottom + 6) + 'px';
+    });
+  });
+  document.addEventListener('touchstart', e => {
+    if (!e.target.closest('[data-tip]') && !e.target.closest('.tip-popup')) {
+      popup.style.display = 'none';
+    }
+  });
+})();
+
+// Collapsible sections
+document.querySelectorAll('.section-title[data-toggle]').forEach(title => {
+  title.addEventListener('click', () => {
+    title.classList.toggle('collapsed');
+    const body = title.nextElementSibling;
+    if (body) body.classList.toggle('collapsed');
+  });
+});
+
+// Mobile tabs
+document.querySelectorAll('#mobile-tabs .tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('#mobile-tabs .tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const panel = tab.dataset.panel;
+    document.getElementById('left-panel').classList.toggle('mobile-active', panel === 'left');
+    document.getElementById('right-panel').classList.toggle('mobile-active', panel === 'right');
+    document.getElementById('canvas-area').classList.toggle('mobile-hidden', panel !== 'canvas');
+    // Resize canvas when switching back
+    if (panel === 'canvas' && window.app && window.app.renderer) {
+      setTimeout(() => window.app.renderer.resize(), 50);
+    }
+  });
+});
+</script>
+</body>
+</html>

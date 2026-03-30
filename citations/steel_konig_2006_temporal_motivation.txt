@@ -1,0 +1,7 @@
+Steel, P. & Konig, C. J. (2006).
+Integrating theories of motivation.
+Academy of Management Review, 31(4), 889-913.
+DOI: 10.5465/amr.2006.22527462
+
+Key finding: Motivation follows hyperbolic discounting M = (E*V)/(1+I*D), not
+exponential decay. Grounds the model's hyperbolic M decay: -beta_M * M / (1+M).

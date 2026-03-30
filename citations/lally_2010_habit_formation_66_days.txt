@@ -1,0 +1,15 @@
+Lally, P., van Jaarsveld, C. H. M., Potts, H. W. W., & Wardle, J. (2010).
+How are habits formed: Modelling habit formation in the real world.
+European Journal of Social Psychology, 40(6), 998-1009.
+DOI: 10.1002/ejsp.674
+
+KEY FINDINGS:
+- 96 volunteers chose an eating, drinking or activity behavior to carry out daily
+  in the same context for 12 weeks
+- Automaticity followed an asymptotic curve
+- Average time to plateau of automaticity: 66 days (range: 18-254 days)
+- Early repetitions led to larger automaticity increases than later repetitions
+- Simple actions (drinking water) reached plateau faster than complex routines (50 sit-ups)
+- Missing a single day did not significantly reduce automaticity
+- Substantial individual variation in both asymptote level and time to reach it
+- Provides the mathematical form for dH/dt: diminishing returns / asymptotic growth

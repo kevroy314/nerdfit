@@ -1,0 +1,15 @@
+Rhodes, R. E., & Sui, W. (2021).
+Physical Activity Maintenance: A Critical Narrative Review and Directions for Future Research.
+Frontiers in Psychology, 12, 725671.
+DOI: 10.3389/fpsyg.2021.725671
+PMID: 34552537
+URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC8450373/
+
+KEY FINDINGS:
+- Self-identifying as an exerciser encourages maintenance and discourages incompatible behaviors
+- Identity develops through successful behavioral experiences and shifts over time
+- Habit and identity reduce the burden of effortful self-regulation as they develop
+- These are core determinants of maintenance distinct from initiation
+- Identity effect on intention-behavior gap: d = 0.73 (from Rhodes, Kaushal & Quinlan 2016 meta-analysis)
+- Identity change predicted additional 16.17 min/week exercise (from Murray et al. 2021, PMC7901813)
+- M-PAC framework: reflexive processes (habit + identity) are key to maintenance

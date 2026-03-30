@@ -1,0 +1,9 @@
+Daw, N. D., Niv, Y., & Dayan, P. (2005).
+Uncertainty-based competition between prefrontal and dorsolateral striatal
+systems for behavioral control.
+Nature Neuroscience, 8, 1704-1711.
+PMID: 16286932
+
+Key finding: Model-based (goal-directed) and model-free (habitual) systems operate
+in parallel with Bayesian arbitration based on uncertainty. Grounds the B computation
+as a blend of B_goal (sigmoid of M vs threshold) and B_habit (H-driven).

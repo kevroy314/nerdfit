@@ -1,0 +1,9 @@
+Stojanovic, M., Fries, S., & Grund, A. (2021).
+Self-Efficacy in Habit Building: How General and Habit-Specific Self-Efficacy Influence Behavioral Automatization and Motivational Interference.
+Frontiers in Psychology, 12, 643753. DOI: 10.3389/fpsyg.2021.643753
+URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC8137900/
+
+General SE predicted automaticity (b=0.609) but not motivational interference.
+Habit-specific SE predicted both outcomes.
+KEY: Positive feedback loop - lagged HSE predicted automaticity AND lagged automaticity predicted HSE.
+Self-amplifying virtuous cycle between self-efficacy and habit strength.

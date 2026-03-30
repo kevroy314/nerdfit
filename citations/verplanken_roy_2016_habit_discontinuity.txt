@@ -1,0 +1,21 @@
+Verplanken, B., & Roy, D. (2016).
+Empowering interventions to promote sustainable lifestyles: Testing the habit
+discontinuity hypothesis in a field experiment.
+Journal of Environmental Psychology, 45, 127-134.
+DOI: 10.1016/j.jenvp.2015.11.008
+
+Also:
+Verplanken, B., Walker, I., Davis, A., & Jurasek, M. (2008).
+Context change and travel mode choice: Combining the habit discontinuity and
+self-activation hypotheses.
+Journal of Environmental Psychology, 28(2), 121-127.
+
+KEY FINDINGS:
+- Behavior change interventions more effective during life transitions
+- Intervention was more effective among recently relocated participants
+- Window of opportunity: ~3 months after relocation
+- Field experiment: 800 households, intervention vs. control, movers vs. non-movers
+- 25 environment-related behaviors measured at baseline and 8 weeks later
+- Mechanisms: unfreezing of old habits, information acquisition, value activation
+- Life transitions that create windows: moving house, changing jobs, retirement,
+  starting a family, school transitions

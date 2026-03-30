@@ -1,0 +1,8 @@
+Edgren, R., Baretta, D., & Inauen, J. (2025).
+The temporal trajectories of habit decay in daily life: An intensive longitudinal study on four health-risk behaviors.
+Applied Psychology: Health and Well-Being, 17(1), e12612. DOI: 10.1111/aphw.12612
+URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC11635905/
+
+N=194, 11,805 observations, 91 days. Asymptotic and logistic models best fit 54% of sample.
+Habit decay is decelerating negative trend. Stabilization: 1-65 days (median ~9-10).
+Massive between-person heterogeneity. Simple exponential NOT the best fit.

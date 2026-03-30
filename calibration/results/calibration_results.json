@@ -1,0 +1,1351 @@
+{
+  "summary": {
+    "total_sims": 2100,
+    "outcome_pcts": {
+      "habit_formed": 33.04761904761905,
+      "partial_habit": 32.42857142857143,
+      "sedentary": 15.80952380952381,
+      "false_hope_cycle": 8.666666666666668,
+      "dropout": 10.047619047619047
+    },
+    "active_60_pct": 36.61904761904762,
+    "active_180_pct": 39.85714285714286,
+    "active_365_pct": 69.85714285714286,
+    "literature_targets": {
+      "overall": {
+        "habit_formed": [
+          0.15,
+          0.3
+        ],
+        "partial_habit": [
+          0.1,
+          0.25
+        ],
+        "sedentary": [
+          0.25,
+          0.45
+        ],
+        "dropout": [
+          0.1,
+          0.25
+        ],
+        "false_hope_cycle": [
+          0.03,
+          0.15
+        ]
+      },
+      "dropout_by_60_days": [
+        0.5,
+        0.8
+      ],
+      "maintaining_at_180": [
+        0.25,
+        0.5
+      ],
+      "maintaining_at_365": [
+        0.15,
+        0.35
+      ]
+    }
+  },
+  "by_person": {
+    "sarah_23_grad": {
+      "person_name": "Sarah",
+      "backstory": "PhD student with irregular schedule. Anxiety has been building. Therapist suggested exercise. Has ne...",
+      "complexity": 0.3,
+      "outcomes": {
+        "habit_formed": 46,
+        "partial_habit": 46,
+        "sedentary": 4,
+        "false_hope_cycle": 3,
+        "dropout": 1
+      },
+      "pct_habit_formed": 46.0,
+      "pct_active_180": 68.0,
+      "pct_active_365": 87.0,
+      "avg_H_final": 0.5058389426572241,
+      "avg_I_final": 0.5076014576571829,
+      "by_archetype": {
+        "STEADY_BUILDER": {
+          "count": 26,
+          "habit_formed": 20,
+          "success_rate": 76.92307692307693
+        },
+        "LATE_BLOOMER": {
+          "count": 7,
+          "habit_formed": 5,
+          "success_rate": 71.42857142857143
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 7,
+          "habit_formed": 5,
+          "success_rate": 71.42857142857143
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 28,
+          "habit_formed": 11,
+          "success_rate": 39.285714285714285
+        },
+        "INJURY_DERAILED": {
+          "count": 6,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INDULGENCE_FADE": {
+          "count": 21,
+          "habit_formed": 5,
+          "success_rate": 23.809523809523807
+        },
+        "FALSE_STARTER": {
+          "count": 3,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "CRISIS_INTERRUPTED": {
+          "count": 2,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    "marcus_26_tech": {
+      "person_name": "Marcus",
+      "backstory": "Lifted in college but stopped after starting his job. 60-hour weeks, Uber Eats for dinner. A college...",
+      "complexity": 0.7,
+      "outcomes": {
+        "habit_formed": 24,
+        "partial_habit": 20,
+        "false_hope_cycle": 4,
+        "sedentary": 32,
+        "dropout": 20
+      },
+      "pct_habit_formed": 24.0,
+      "pct_active_180": 12.0,
+      "pct_active_365": 54.0,
+      "avg_H_final": 0.3187092968721869,
+      "avg_I_final": 0.19970205439165412,
+      "by_archetype": {
+        "STEADY_BUILDER": {
+          "count": 16,
+          "habit_formed": 10,
+          "success_rate": 62.5
+        },
+        "LATE_BLOOMER": {
+          "count": 7,
+          "habit_formed": 1,
+          "success_rate": 14.285714285714285
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 11,
+          "habit_formed": 6,
+          "success_rate": 54.54545454545454
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 18,
+          "habit_formed": 5,
+          "success_rate": 27.77777777777778
+        },
+        "CRISIS_INTERRUPTED": {
+          "count": 2,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "FALSE_STARTER": {
+          "count": 22,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INDULGENCE_FADE": {
+          "count": 10,
+          "habit_formed": 1,
+          "success_rate": 10.0
+        },
+        "INJURY_DERAILED": {
+          "count": 13,
+          "habit_formed": 1,
+          "success_rate": 7.6923076923076925
+        },
+        "YO_YO": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    "priya_21_college": {
+      "person_name": "Priya",
+      "backstory": "Family history of diabetes. Pre-med courses are brutal. Eats in the dining hall -- limited control o...",
+      "complexity": 0.6,
+      "outcomes": {
+        "habit_formed": 46,
+        "partial_habit": 23,
+        "dropout": 7,
+        "false_hope_cycle": 2,
+        "sedentary": 22
+      },
+      "pct_habit_formed": 46.0,
+      "pct_active_180": 24.0,
+      "pct_active_365": 77.0,
+      "avg_H_final": 0.45283311607300275,
+      "avg_I_final": 0.3116794177184863,
+      "by_archetype": {
+        "STEADY_BUILDER": {
+          "count": 14,
+          "habit_formed": 10,
+          "success_rate": 71.42857142857143
+        },
+        "LATE_BLOOMER": {
+          "count": 6,
+          "habit_formed": 4,
+          "success_rate": 66.66666666666666
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 14,
+          "habit_formed": 11,
+          "success_rate": 78.57142857142857
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 34,
+          "habit_formed": 19,
+          "success_rate": 55.88235294117647
+        },
+        "INDULGENCE_FADE": {
+          "count": 10,
+          "habit_formed": 2,
+          "success_rate": 20.0
+        },
+        "FALSE_STARTER": {
+          "count": 18,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "CRISIS_INTERRUPTED": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INJURY_DERAILED": {
+          "count": 2,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "YO_YO": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    "jordan_28_trades": {
+      "person_name": "Jordan",
+      "backstory": "Physically active at work but it's not 'exercise' -- repetitive, asymmetric loading. Back pain start...",
+      "complexity": 0.4,
+      "outcomes": {
+        "partial_habit": 31,
+        "false_hope_cycle": 7,
+        "habit_formed": 56,
+        "sedentary": 6
+      },
+      "pct_habit_formed": 56.00000000000001,
+      "pct_active_180": 59.0,
+      "pct_active_365": 73.0,
+      "avg_H_final": 0.5461718586279924,
+      "avg_I_final": 0.534751937687162,
+      "by_archetype": {
+        "STEADY_BUILDER": {
+          "count": 28,
+          "habit_formed": 16,
+          "success_rate": 57.14285714285714
+        },
+        "LATE_BLOOMER": {
+          "count": 9,
+          "habit_formed": 6,
+          "success_rate": 66.66666666666666
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 15,
+          "habit_formed": 10,
+          "success_rate": 66.66666666666666
+        },
+        "INJURY_DERAILED": {
+          "count": 15,
+          "habit_formed": 1,
+          "success_rate": 6.666666666666667
+        },
+        "CRISIS_INTERRUPTED": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INDULGENCE_FADE": {
+          "count": 6,
+          "habit_formed": 5,
+          "success_rate": 83.33333333333334
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 25,
+          "habit_formed": 18,
+          "success_rate": 72.0
+        },
+        "FALSE_STARTER": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    "david_35_newdad": {
+      "person_name": "David",
+      "backstory": "Two kids under 5. Used to play rec soccer. Sleep-deprived, stress-eating. Wife exercises regularly w...",
+      "complexity": 0.5,
+      "outcomes": {
+        "sedentary": 8,
+        "partial_habit": 46,
+        "habit_formed": 35,
+        "false_hope_cycle": 6,
+        "dropout": 5
+      },
+      "pct_habit_formed": 35.0,
+      "pct_active_180": 28.000000000000004,
+      "pct_active_365": 71.0,
+      "avg_H_final": 0.4321567916213228,
+      "avg_I_final": 0.32822125509635436,
+      "by_archetype": {
+        "LATE_BLOOMER": {
+          "count": 12,
+          "habit_formed": 2,
+          "success_rate": 16.666666666666664
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 13,
+          "habit_formed": 11,
+          "success_rate": 84.61538461538461
+        },
+        "STEADY_BUILDER": {
+          "count": 21,
+          "habit_formed": 14,
+          "success_rate": 66.66666666666666
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 22,
+          "habit_formed": 5,
+          "success_rate": 22.727272727272727
+        },
+        "INDULGENCE_FADE": {
+          "count": 5,
+          "habit_formed": 1,
+          "success_rate": 20.0
+        },
+        "INJURY_DERAILED": {
+          "count": 13,
+          "habit_formed": 1,
+          "success_rate": 7.6923076923076925
+        },
+        "FALSE_STARTER": {
+          "count": 8,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "SLOW_GRINDER": {
+          "count": 3,
+          "habit_formed": 1,
+          "success_rate": 33.33333333333333
+        },
+        "CRISIS_INTERRUPTED": {
+          "count": 2,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "YO_YO": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    "mei_38_executive": {
+      "person_name": "Mei",
+      "backstory": "High-powered career, travel 30% of the time. Has a personal trainer she sees when she's in town. The...",
+      "complexity": 0.8,
+      "outcomes": {
+        "dropout": 62,
+        "partial_habit": 13,
+        "sedentary": 20,
+        "false_hope_cycle": 4,
+        "habit_formed": 1
+      },
+      "pct_habit_formed": 1.0,
+      "pct_active_180": 1.0,
+      "pct_active_365": 43.0,
+      "avg_H_final": 0.11024760838698314,
+      "avg_I_final": 0.08171182873800355,
+      "by_archetype": {
+        "STEADY_BUILDER": {
+          "count": 13,
+          "habit_formed": 1,
+          "success_rate": 7.6923076923076925
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 7,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "LATE_BLOOMER": {
+          "count": 7,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "FALSE_STARTER": {
+          "count": 32,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 23,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INJURY_DERAILED": {
+          "count": 12,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "CRISIS_INTERRUPTED": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INDULGENCE_FADE": {
+          "count": 3,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "SLOW_GRINDER": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "YO_YO": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    "carlos_42_teacher": {
+      "person_name": "Carlos",
+      "backstory": "Was a competitive runner in his 20s. Still identifies as a runner. Coaches the high school track tea...",
+      "complexity": 0.5,
+      "outcomes": {
+        "false_hope_cycle": 15,
+        "habit_formed": 35,
+        "partial_habit": 30,
+        "sedentary": 14,
+        "dropout": 6
+      },
+      "pct_habit_formed": 35.0,
+      "pct_active_180": 49.0,
+      "pct_active_365": 51.0,
+      "avg_H_final": 0.44451163279124983,
+      "avg_I_final": 0.6098191854049726,
+      "by_archetype": {
+        "STEADY_BUILDER": {
+          "count": 24,
+          "habit_formed": 15,
+          "success_rate": 62.5
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 18,
+          "habit_formed": 10,
+          "success_rate": 55.55555555555556
+        },
+        "LATE_BLOOMER": {
+          "count": 8,
+          "habit_formed": 3,
+          "success_rate": 37.5
+        },
+        "INJURY_DERAILED": {
+          "count": 37,
+          "habit_formed": 1,
+          "success_rate": 2.7027027027027026
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 11,
+          "habit_formed": 6,
+          "success_rate": 54.54545454545454
+        },
+        "INDULGENCE_FADE": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "YO_YO": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    "aisha_33_nurse": {
+      "person_name": "Aisha",
+      "backstory": "12-hour night shifts, 3 days on, 4 off. Circadian rhythm is destroyed. Knows exercise would help her...",
+      "complexity": 0.3,
+      "outcomes": {
+        "habit_formed": 21,
+        "partial_habit": 53,
+        "sedentary": 11,
+        "false_hope_cycle": 12,
+        "dropout": 3
+      },
+      "pct_habit_formed": 21.0,
+      "pct_active_180": 42.0,
+      "pct_active_365": 84.0,
+      "avg_H_final": 0.368833037758116,
+      "avg_I_final": 0.2926501646062826,
+      "by_archetype": {
+        "SOCIAL_CATALYZED": {
+          "count": 6,
+          "habit_formed": 2,
+          "success_rate": 33.33333333333333
+        },
+        "STEADY_BUILDER": {
+          "count": 19,
+          "habit_formed": 11,
+          "success_rate": 57.89473684210527
+        },
+        "LATE_BLOOMER": {
+          "count": 14,
+          "habit_formed": 3,
+          "success_rate": 21.428571428571427
+        },
+        "CRISIS_INTERRUPTED": {
+          "count": 5,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INDULGENCE_FADE": {
+          "count": 17,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INJURY_DERAILED": {
+          "count": 11,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 25,
+          "habit_formed": 5,
+          "success_rate": 20.0
+        },
+        "FALSE_STARTER": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "SLOW_GRINDER": {
+          "count": 2,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    "tom_40_remote": {
+      "person_name": "Tom",
+      "backstory": "Works from home, alone, for 5 years. Hasn't exercised in a decade. Back pain from sitting all day. G...",
+      "complexity": 0.2,
+      "outcomes": {
+        "partial_habit": 28,
+        "habit_formed": 66,
+        "false_hope_cycle": 5,
+        "sedentary": 1
+      },
+      "pct_habit_formed": 66.0,
+      "pct_active_180": 66.0,
+      "pct_active_365": 88.0,
+      "avg_H_final": 0.5949954256253569,
+      "avg_I_final": 0.5823373261316526,
+      "by_archetype": {
+        "LATE_BLOOMER": {
+          "count": 6,
+          "habit_formed": 5,
+          "success_rate": 83.33333333333334
+        },
+        "STEADY_BUILDER": {
+          "count": 35,
+          "habit_formed": 34,
+          "success_rate": 97.14285714285714
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 5,
+          "habit_formed": 5,
+          "success_rate": 100.0
+        },
+        "INDULGENCE_FADE": {
+          "count": 12,
+          "habit_formed": 5,
+          "success_rate": 41.66666666666667
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 21,
+          "habit_formed": 14,
+          "success_rate": 66.66666666666666
+        },
+        "INJURY_DERAILED": {
+          "count": 16,
+          "habit_formed": 2,
+          "success_rate": 12.5
+        },
+        "CRISIS_INTERRUPTED": {
+          "count": 4,
+          "habit_formed": 1,
+          "success_rate": 25.0
+        },
+        "YO_YO": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    "lisa_37_divorce": {
+      "person_name": "Lisa",
+      "backstory": "Recently divorced after 12 years. Two kids (8, 11) with shared custody. Using fitness as a way to re...",
+      "complexity": 0.7,
+      "outcomes": {
+        "sedentary": 38,
+        "dropout": 28,
+        "partial_habit": 22,
+        "habit_formed": 6,
+        "false_hope_cycle": 6
+      },
+      "pct_habit_formed": 6.0,
+      "pct_active_180": 10.0,
+      "pct_active_365": 47.0,
+      "avg_H_final": 0.20385975066541867,
+      "avg_I_final": 0.0888454245218061,
+      "by_archetype": {
+        "STEADY_BUILDER": {
+          "count": 12,
+          "habit_formed": 1,
+          "success_rate": 8.333333333333332
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 11,
+          "habit_formed": 3,
+          "success_rate": 27.27272727272727
+        },
+        "LATE_BLOOMER": {
+          "count": 6,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "FALSE_STARTER": {
+          "count": 28,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 23,
+          "habit_formed": 2,
+          "success_rate": 8.695652173913043
+        },
+        "INJURY_DERAILED": {
+          "count": 13,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "YO_YO": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INDULGENCE_FADE": {
+          "count": 6,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    "robert_52_exec": {
+      "person_name": "Robert",
+      "backstory": "Father had a heart attack at 55. Robert is now 52 with borderline hypertension. Has resources (home ...",
+      "complexity": 0.4,
+      "outcomes": {
+        "sedentary": 17,
+        "partial_habit": 39,
+        "habit_formed": 19,
+        "false_hope_cycle": 16,
+        "dropout": 9
+      },
+      "pct_habit_formed": 19.0,
+      "pct_active_180": 28.000000000000004,
+      "pct_active_365": 77.0,
+      "avg_H_final": 0.3061042807772973,
+      "avg_I_final": 0.2494132985965819,
+      "by_archetype": {
+        "STEADY_BUILDER": {
+          "count": 15,
+          "habit_formed": 8,
+          "success_rate": 53.333333333333336
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 7,
+          "habit_formed": 4,
+          "success_rate": 57.14285714285714
+        },
+        "LATE_BLOOMER": {
+          "count": 10,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INJURY_DERAILED": {
+          "count": 21,
+          "habit_formed": 2,
+          "success_rate": 9.523809523809524
+        },
+        "FALSE_STARTER": {
+          "count": 13,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INDULGENCE_FADE": {
+          "count": 13,
+          "habit_formed": 2,
+          "success_rate": 15.384615384615385
+        },
+        "YO_YO": {
+          "count": 3,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 15,
+          "habit_formed": 2,
+          "success_rate": 13.333333333333334
+        },
+        "CRISIS_INTERRUPTED": {
+          "count": 3,
+          "habit_formed": 1,
+          "success_rate": 33.33333333333333
+        }
+      }
+    },
+    "gloria_48_teacher": {
+      "person_name": "Gloria",
+      "backstory": "Perimenopause hit hard -- weight gain, sleep disruption, mood swings. Doctor recommended exercise be...",
+      "complexity": 0.4,
+      "outcomes": {
+        "partial_habit": 18,
+        "habit_formed": 72,
+        "false_hope_cycle": 2,
+        "sedentary": 8
+      },
+      "pct_habit_formed": 72.0,
+      "pct_active_180": 76.0,
+      "pct_active_365": 84.0,
+      "avg_H_final": 0.6220981707549607,
+      "avg_I_final": 0.6230567720679195,
+      "by_archetype": {
+        "STEADY_BUILDER": {
+          "count": 29,
+          "habit_formed": 25,
+          "success_rate": 86.20689655172413
+        },
+        "LATE_BLOOMER": {
+          "count": 7,
+          "habit_formed": 6,
+          "success_rate": 85.71428571428571
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 15,
+          "habit_formed": 12,
+          "success_rate": 80.0
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 23,
+          "habit_formed": 15,
+          "success_rate": 65.21739130434783
+        },
+        "INJURY_DERAILED": {
+          "count": 14,
+          "habit_formed": 5,
+          "success_rate": 35.714285714285715
+        },
+        "INDULGENCE_FADE": {
+          "count": 5,
+          "habit_formed": 5,
+          "success_rate": 100.0
+        },
+        "FALSE_STARTER": {
+          "count": 5,
+          "habit_formed": 2,
+          "success_rate": 40.0
+        },
+        "YO_YO": {
+          "count": 1,
+          "habit_formed": 1,
+          "success_rate": 100.0
+        },
+        "SLOW_GRINDER": {
+          "count": 1,
+          "habit_formed": 1,
+          "success_rate": 100.0
+        }
+      }
+    },
+    "james_55_bluecollar": {
+      "person_name": "James",
+      "backstory": "BMI 35. Knees are shot from decades of warehouse work. Doctor said 'lose weight or prepare for knee ...",
+      "complexity": 0.3,
+      "outcomes": {
+        "habit_formed": 22,
+        "partial_habit": 50,
+        "sedentary": 6,
+        "false_hope_cycle": 19,
+        "dropout": 3
+      },
+      "pct_habit_formed": 22.0,
+      "pct_active_180": 32.0,
+      "pct_active_365": 52.0,
+      "avg_H_final": 0.40107505731350657,
+      "avg_I_final": 0.30820442072391807,
+      "by_archetype": {
+        "LATE_BLOOMER": {
+          "count": 6,
+          "habit_formed": 1,
+          "success_rate": 16.666666666666664
+        },
+        "STEADY_BUILDER": {
+          "count": 15,
+          "habit_formed": 6,
+          "success_rate": 40.0
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 7,
+          "habit_formed": 4,
+          "success_rate": 57.14285714285714
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 18,
+          "habit_formed": 7,
+          "success_rate": 38.88888888888889
+        },
+        "INJURY_DERAILED": {
+          "count": 38,
+          "habit_formed": 1,
+          "success_rate": 2.631578947368421
+        },
+        "FALSE_STARTER": {
+          "count": 4,
+          "habit_formed": 1,
+          "success_rate": 25.0
+        },
+        "CRISIS_INTERRUPTED": {
+          "count": 2,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INDULGENCE_FADE": {
+          "count": 9,
+          "habit_formed": 2,
+          "success_rate": 22.22222222222222
+        },
+        "YO_YO": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    "nina_44_immigrant": {
+      "person_name": "Nina",
+      "backstory": "Immigrated 15 years ago, built a restaurant from scratch. Works 14-hour days. Type 2 diabetes diagno...",
+      "complexity": 0.2,
+      "outcomes": {
+        "partial_habit": 51,
+        "habit_formed": 33,
+        "sedentary": 8,
+        "false_hope_cycle": 8
+      },
+      "pct_habit_formed": 33.0,
+      "pct_active_180": 63.0,
+      "pct_active_365": 87.0,
+      "avg_H_final": 0.44595967626505034,
+      "avg_I_final": 0.4357372619693826,
+      "by_archetype": {
+        "SOCIAL_CATALYZED": {
+          "count": 9,
+          "habit_formed": 6,
+          "success_rate": 66.66666666666666
+        },
+        "LATE_BLOOMER": {
+          "count": 5,
+          "habit_formed": 2,
+          "success_rate": 40.0
+        },
+        "STEADY_BUILDER": {
+          "count": 16,
+          "habit_formed": 13,
+          "success_rate": 81.25
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 25,
+          "habit_formed": 6,
+          "success_rate": 24.0
+        },
+        "CRISIS_INTERRUPTED": {
+          "count": 4,
+          "habit_formed": 1,
+          "success_rate": 25.0
+        },
+        "INDULGENCE_FADE": {
+          "count": 20,
+          "habit_formed": 4,
+          "success_rate": 20.0
+        },
+        "INJURY_DERAILED": {
+          "count": 13,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "FALSE_STARTER": {
+          "count": 6,
+          "habit_formed": 1,
+          "success_rate": 16.666666666666664
+        },
+        "YO_YO": {
+          "count": 2,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    "helen_62_retired": {
+      "person_name": "Helen",
+      "backstory": "Recently retired. Watched her mother decline physically in her 70s and is determined to avoid the sa...",
+      "complexity": 0.3,
+      "outcomes": {
+        "habit_formed": 59,
+        "partial_habit": 33,
+        "false_hope_cycle": 5,
+        "sedentary": 2,
+        "dropout": 1
+      },
+      "pct_habit_formed": 59.0,
+      "pct_active_180": 67.0,
+      "pct_active_365": 74.0,
+      "avg_H_final": 0.5714100188719132,
+      "avg_I_final": 0.5383401104525202,
+      "by_archetype": {
+        "STEADY_BUILDER": {
+          "count": 35,
+          "habit_formed": 26,
+          "success_rate": 74.28571428571429
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 13,
+          "habit_formed": 11,
+          "success_rate": 84.61538461538461
+        },
+        "LATE_BLOOMER": {
+          "count": 7,
+          "habit_formed": 3,
+          "success_rate": 42.857142857142854
+        },
+        "INJURY_DERAILED": {
+          "count": 26,
+          "habit_formed": 4,
+          "success_rate": 15.384615384615385
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 11,
+          "habit_formed": 8,
+          "success_rate": 72.72727272727273
+        },
+        "INDULGENCE_FADE": {
+          "count": 6,
+          "habit_formed": 5,
+          "success_rate": 83.33333333333334
+        },
+        "FALSE_STARTER": {
+          "count": 1,
+          "habit_formed": 1,
+          "success_rate": 100.0
+        },
+        "YO_YO": {
+          "count": 1,
+          "habit_formed": 1,
+          "success_rate": 100.0
+        }
+      }
+    },
+    "frank_67_cardiac": {
+      "person_name": "Frank",
+      "backstory": "Mild MI six months ago. Completed cardiac rehab. Now on his own. Wife is terrified and monitors ever...",
+      "complexity": 0.3,
+      "outcomes": {
+        "habit_formed": 68,
+        "partial_habit": 23,
+        "sedentary": 5,
+        "false_hope_cycle": 4
+      },
+      "pct_habit_formed": 68.0,
+      "pct_active_180": 71.0,
+      "pct_active_365": 80.0,
+      "avg_H_final": 0.6324830123169477,
+      "avg_I_final": 0.6126146215196789,
+      "by_archetype": {
+        "SOCIAL_CATALYZED": {
+          "count": 14,
+          "habit_formed": 11,
+          "success_rate": 78.57142857142857
+        },
+        "STEADY_BUILDER": {
+          "count": 35,
+          "habit_formed": 29,
+          "success_rate": 82.85714285714286
+        },
+        "LATE_BLOOMER": {
+          "count": 7,
+          "habit_formed": 7,
+          "success_rate": 100.0
+        },
+        "CRISIS_INTERRUPTED": {
+          "count": 1,
+          "habit_formed": 1,
+          "success_rate": 100.0
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 13,
+          "habit_formed": 9,
+          "success_rate": 69.23076923076923
+        },
+        "INJURY_DERAILED": {
+          "count": 23,
+          "habit_formed": 5,
+          "success_rate": 21.73913043478261
+        },
+        "INDULGENCE_FADE": {
+          "count": 6,
+          "habit_formed": 5,
+          "success_rate": 83.33333333333334
+        },
+        "FALSE_STARTER": {
+          "count": 1,
+          "habit_formed": 1,
+          "success_rate": 100.0
+        }
+      }
+    },
+    "alex_30_adhd": {
+      "person_name": "Alex",
+      "backstory": "Diagnosed ADHD at 25. Medication helped but side effects were bad. Read that exercise can substitute...",
+      "complexity": 0.5,
+      "outcomes": {
+        "habit_formed": 12,
+        "partial_habit": 43,
+        "sedentary": 34,
+        "false_hope_cycle": 7,
+        "dropout": 4
+      },
+      "pct_habit_formed": 12.0,
+      "pct_active_180": 32.0,
+      "pct_active_365": 83.0,
+      "avg_H_final": 0.3087032925819754,
+      "avg_I_final": 0.17955448017013673,
+      "by_archetype": {
+        "STEADY_BUILDER": {
+          "count": 12,
+          "habit_formed": 7,
+          "success_rate": 58.333333333333336
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 5,
+          "habit_formed": 1,
+          "success_rate": 20.0
+        },
+        "LATE_BLOOMER": {
+          "count": 8,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INDULGENCE_FADE": {
+          "count": 4,
+          "habit_formed": 1,
+          "success_rate": 25.0
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 32,
+          "habit_formed": 3,
+          "success_rate": 9.375
+        },
+        "FALSE_STARTER": {
+          "count": 28,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "YO_YO": {
+          "count": 3,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INJURY_DERAILED": {
+          "count": 8,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    "keiko_29_postpartum": {
+      "person_name": "Keiko",
+      "backstory": "Baby is 4 months old. Dealing with postpartum mood issues. Was a regular yoga practitioner before pr...",
+      "complexity": 0.3,
+      "outcomes": {
+        "habit_formed": 47,
+        "partial_habit": 39,
+        "false_hope_cycle": 11,
+        "sedentary": 3
+      },
+      "pct_habit_formed": 47.0,
+      "pct_active_180": 67.0,
+      "pct_active_365": 86.0,
+      "avg_H_final": 0.5120458506241625,
+      "avg_I_final": 0.5122770814491687,
+      "by_archetype": {
+        "SOCIAL_CATALYZED": {
+          "count": 16,
+          "habit_formed": 13,
+          "success_rate": 81.25
+        },
+        "STEADY_BUILDER": {
+          "count": 16,
+          "habit_formed": 10,
+          "success_rate": 62.5
+        },
+        "LATE_BLOOMER": {
+          "count": 18,
+          "habit_formed": 8,
+          "success_rate": 44.44444444444444
+        },
+        "INJURY_DERAILED": {
+          "count": 20,
+          "habit_formed": 5,
+          "success_rate": 25.0
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 11,
+          "habit_formed": 4,
+          "success_rate": 36.36363636363637
+        },
+        "YO_YO": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INDULGENCE_FADE": {
+          "count": 11,
+          "habit_formed": 4,
+          "success_rate": 36.36363636363637
+        },
+        "SLOW_GRINDER": {
+          "count": 2,
+          "habit_formed": 2,
+          "success_rate": 100.0
+        },
+        "FALSE_STARTER": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "CRISIS_INTERRUPTED": {
+          "count": 4,
+          "habit_formed": 1,
+          "success_rate": 25.0
+        }
+      }
+    },
+    "derek_45_yoyo": {
+      "person_name": "Derek",
+      "backstory": "Classic yo-yo dieter. Has lost 30+ lbs four times, gained it back each time. Knows every diet. Curre...",
+      "complexity": 0.6,
+      "outcomes": {
+        "partial_habit": 22,
+        "sedentary": 29,
+        "habit_formed": 13,
+        "dropout": 26,
+        "false_hope_cycle": 10
+      },
+      "pct_habit_formed": 13.0,
+      "pct_active_180": 8.0,
+      "pct_active_365": 55.00000000000001,
+      "avg_H_final": 0.24233243052963696,
+      "avg_I_final": 0.133445791482113,
+      "by_archetype": {
+        "STEADY_BUILDER": {
+          "count": 12,
+          "habit_formed": 5,
+          "success_rate": 41.66666666666667
+        },
+        "LATE_BLOOMER": {
+          "count": 8,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 6,
+          "habit_formed": 3,
+          "success_rate": 50.0
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 55,
+          "habit_formed": 4,
+          "success_rate": 7.2727272727272725
+        },
+        "INJURY_DERAILED": {
+          "count": 7,
+          "habit_formed": 1,
+          "success_rate": 14.285714285714285
+        },
+        "INDULGENCE_FADE": {
+          "count": 11,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "YO_YO": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    "sam_19_freshman": {
+      "person_name": "Sam",
+      "backstory": "Skinny kid who watched too many fitness YouTubers. First month of college, signed up for the campus ...",
+      "complexity": 0.9,
+      "outcomes": {
+        "sedentary": 55,
+        "dropout": 34,
+        "habit_formed": 2,
+        "partial_habit": 7,
+        "false_hope_cycle": 2
+      },
+      "pct_habit_formed": 2.0,
+      "pct_active_180": 6.0,
+      "pct_active_365": 50.0,
+      "avg_H_final": 0.12888088702615103,
+      "avg_I_final": 0.030486061952853288,
+      "by_archetype": {
+        "STEADY_BUILDER": {
+          "count": 10,
+          "habit_formed": 1,
+          "success_rate": 10.0
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 8,
+          "habit_formed": 1,
+          "success_rate": 12.5
+        },
+        "LATE_BLOOMER": {
+          "count": 5,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 20,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "FALSE_STARTER": {
+          "count": 46,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INJURY_DERAILED": {
+          "count": 4,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "INDULGENCE_FADE": {
+          "count": 5,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "YO_YO": {
+          "count": 2,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    "maria_50_caregiver": {
+      "person_name": "Maria",
+      "backstory": "Mother moved in after a stroke 2 years ago. Maria does all the transfers, bathing assistance, appoin...",
+      "complexity": 0.25,
+      "outcomes": {
+        "habit_formed": 11,
+        "sedentary": 9,
+        "partial_habit": 44,
+        "false_hope_cycle": 34,
+        "dropout": 2
+      },
+      "pct_habit_formed": 11.0,
+      "pct_active_180": 28.000000000000004,
+      "pct_active_365": 64.0,
+      "avg_H_final": 0.2780041211441169,
+      "avg_I_final": 0.2392921307842185,
+      "by_archetype": {
+        "STEADY_BUILDER": {
+          "count": 17,
+          "habit_formed": 5,
+          "success_rate": 29.411764705882355
+        },
+        "LATE_BLOOMER": {
+          "count": 9,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "SOCIAL_CATALYZED": {
+          "count": 6,
+          "habit_formed": 3,
+          "success_rate": 50.0
+        },
+        "INJURY_DERAILED": {
+          "count": 20,
+          "habit_formed": 1,
+          "success_rate": 5.0
+        },
+        "COMPLEXITY_TRAPPED": {
+          "count": 26,
+          "habit_formed": 1,
+          "success_rate": 3.8461538461538463
+        },
+        "INDULGENCE_FADE": {
+          "count": 16,
+          "habit_formed": 1,
+          "success_rate": 6.25
+        },
+        "CRISIS_INTERRUPTED": {
+          "count": 3,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "YO_YO": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "SLOW_GRINDER": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        },
+        "FALSE_STARTER": {
+          "count": 1,
+          "habit_formed": 0,
+          "success_rate": 0.0
+        }
+      }
+    }
+  }
+}

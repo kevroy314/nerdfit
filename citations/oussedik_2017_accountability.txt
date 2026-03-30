@@ -1,0 +1,25 @@
+Oussedik, E., Foy, C. G., Masicampo, E. J., Kammrath, L. K., Anderson, R. E.,
+& Feldman, S. R. (2017).
+Accountability: A missing construct in models of adherence behavior and in
+clinical practice.
+Patient Preference and Adherence, 11, 1285-1294.
+DOI: 10.2147/PPA.S135895
+
+Also:
+Mohr, D. C., Cuijpers, P., & Lehman, K. (2011).
+Supportive accountability: A model for providing human support to enhance
+adherence to eHealth interventions.
+Journal of Medical Internet Research, 13(1), e30.
+DOI: 10.2196/jmir.1602
+
+KEY FINDINGS:
+- Accountability = expectation of account-giving involving anticipated social interaction
+- Distinct from reminders or cues to action
+- Existing health behavior models (HBM, SCT, TPB) fail to incorporate accountability
+- Two types:
+  1. Controlled Accountability: motivated by shame/duress, less effective long-term
+  2. Autonomous Accountability: driven by desire to please respected providers, superior
+     sustained adherence
+- Internet-based weekly reporting increased acne treatment adherence by >100%
+- Accountability operates through behavioral amplification independent of direct contact
+- Proposed integration into Bandura's SCT, informed by SDT (competence, autonomy, relatedness)

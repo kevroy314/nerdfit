@@ -1,0 +1,21 @@
+Gollwitzer, P. M. (1999).
+Implementation intentions: Strong effects of simple plans.
+American Psychologist, 54(7), 493-503.
+DOI: 10.1037/0003-066X.54.7.493
+
+Also:
+Gollwitzer, P. M., & Sheeran, P. (2006).
+Implementation intentions and goal achievement: A meta-analysis of effects and processes.
+Advances in Experimental Social Psychology, 38, 69-119.
+
+KEY FINDINGS:
+- Implementation intentions = if-then plans: "if situation Y arises, then I will do Z"
+- Meta-analysis of 94 tests: medium-to-large effect on goal attainment (d = 0.65)
+- Mechanism: heightened perceptual readiness for specified cue + strong associative
+  link between situation and planned action
+- Essentially creates proto-habits through a single cognitive act
+- Effective for: initiating goal striving, shielding ongoing pursuit from unwanted
+  influences, disengaging from failing actions, conserving capability
+- Intention-behavior gap: medium-to-large change in commitment (d = 0.66) only led
+  to small-to-medium change in behavior (d = 0.33)
+- Implementation intentions help bridge this gap

@@ -1,0 +1,11 @@
+Ekkekakis, P. (2009).
+The dual-mode theory of affective responses to exercise in metatheoretical context.
+International Review of Sport and Exercise Psychology, 2(1), 73-94 and 2(2), 119-150.
+DOI (Part I): 10.1080/17509840802705920
+DOI (Part II): 10.1080/17509840902829323
+
+Key finding: Below ventilatory threshold, exercise affect is positive (cognitive
+factors dominate). Above VT, affect becomes consistently negative (interoceptive
+factors dominate). A 1-unit improvement in in-task feeling predicts 38 min/week
+more exercise at 6 months. Not yet implemented in the model (would need an
+exercise intensity parameter).

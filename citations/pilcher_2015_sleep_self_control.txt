@@ -1,0 +1,19 @@
+Pilcher, J. J., Morris, D. M., Donnelly, J., & Feigl, H. B. (2015).
+Interactions between sleep habits and self-control.
+Frontiers in Human Neuroscience, 9, 284.
+DOI: 10.3389/fnhum.2015.00284
+PMID: 26029094
+URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC4426706/
+
+KEY FINDINGS:
+- Sleep deprivation impairs self-control through reduced PFC capacity
+- Endogenous feedback loop: glucose metabolism (influenced by circadian rhythms
+  and sleep) directly affects self-regulatory capacity
+- Self-control failure results from both physiological resource depletion AND
+  psychological factors
+- When resources severely exhausted, cognitive resources like motivation cannot
+  overcome the deficit
+- Sleep-deprived individuals compensate by selecting easier tasks and reducing
+  performance demands
+- Good sleep habits serve as essential "replenishing" mechanisms for daily
+  self-regulatory capacity

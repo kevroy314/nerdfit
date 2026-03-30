@@ -1,0 +1,7 @@
+Dai, H., Milkman, K. L., & Riis, J. (2014).
+The fresh start effect: Temporal landmarks motivate aspirational behavior.
+Management Science, 60(10), 2563-2582.
+
+Key finding: Gym visits increase 33% at week start, 47% at semester start.
+Temporal landmarks create motivational resets. Grounds the new_year event type
+that boosts M and partially resets E.

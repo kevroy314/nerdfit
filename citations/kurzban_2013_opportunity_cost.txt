@@ -1,0 +1,9 @@
+Kurzban, R., Duckworth, A., Kable, J. W., & Myers, J. (2013).
+An opportunity cost model of subjective effort and task performance.
+Behavioral and Brain Sciences, 36(6), 661-679.
+DOI: 10.1017/S0140525X12003196
+PMID: 24304775
+
+Key finding: Effort depletion reflects shifting cost-benefit computation, not literal
+resource consumption. Incentives and reframing reverse "depletion." Grounds the
+effort cost term as opportunity cost rather than resource drain.

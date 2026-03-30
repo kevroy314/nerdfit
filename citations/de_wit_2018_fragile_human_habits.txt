@@ -1,0 +1,9 @@
+de Wit, S., Kindt, M., Knot, S. L., et al. (2018).
+Shifting the balance between goals and habits: Five failures in experimental
+habit induction.
+Journal of Experimental Psychology: General, 147(7), 1043-1065.
+DOI: 10.1037/xge0000402
+
+Key finding: Five experimental attempts to induce outcome-insensitive habits in
+humans all FAILED. Human habits may always retain goal-directed character. Grounds
+the model's requirement that B always needs minimum M even at high H.

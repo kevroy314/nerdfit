@@ -1,0 +1,23 @@
+Berkman, E. T., Livingston, J. L., & Kahn, L. E. (2017).
+Finding the "self" in self-regulation: The identity-value model.
+Psychological Inquiry, 28(2-3), 77-98.
+DOI: 10.1080/1047840X.2017.1323463
+PMID: 30774280
+URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC6377081/
+
+Also:
+Berkman, E. T., Livingston, J. L., & Kahn, L. E. (2017).
+The identity-value model of self-regulation: Integration, extension, and open questions.
+Psychological Inquiry, 28(2-3), 157-164.
+DOI: 10.1080/1047840X.2017.1343069
+PMID: 30774281
+URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC6377198/
+
+KEY CLAIMS:
+- Identity increases subjective value of identity-congruent behaviors
+- Self-regulation operates via dynamic value integration across choice attributes
+- Goal-directed behaviors that are identity-relevant have greater subjective value
+- Neural overlap in vmPFC between identity processing and valuation
+- Making target behaviors more self-relevant improves self-regulation
+- Challenges dual-process (hot vs. cold) framing of self-control
+- Identity as strong, enduring source of value in self-regulation outcomes

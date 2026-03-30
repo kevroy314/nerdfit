@@ -1,0 +1,9 @@
+Martin, C. A., Rivera, D. E., Hekler, E. B., et al. (2020).
+Development of a Control-Oriented Model of Social Cognitive Theory for Optimized mHealth Behavioral Interventions.
+IEEE Trans. Control Systems Technology, 28(2), 331-346. DOI: 10.1109/tcst.2018.2873538
+URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC7977327/
+
+6 state variables: self-management skills, outcome expectancies, self-efficacy, behavior, behavioral outcomes, cue to action.
+8 exogenous inputs. First-order linear ODEs with fluid analogy.
+Validated on MILES study (N=68). SE fit: 49.54%; Behavior fit: 34.95%.
+Key: goal-attainment deficit depletes self-efficacy. Stability requires gain products < 1.

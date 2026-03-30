@@ -1,0 +1,18 @@
+Wood, W., & Runger, D. (2016).
+Psychology of habit.
+Annual Review of Psychology, 67, 289-314.
+DOI: 10.1146/annurev-psych-122414-033417
+PMID: 26361052
+
+KEY FINDINGS:
+- Habits characterized by cognitive, motivational, and neurobiological properties
+- Three interfaces between habits and deliberate goal pursuit:
+  1. Habits form as people pursue goals by repeating same responses in given context
+  2. Habits and deliberate goal pursuit guide actions synergistically, though habits
+     are the efficient, default mode of response
+  3. People infer from habit frequency that behavior must have been intended
+- Two parallel brain systems: stimulus-response (habit) and goal-directed
+- Breaking habits requires: weakening S-R links, avoiding triggers, goal-directed
+  inhibition, or forming competing S-R associations
+- Stress and addiction understood through habit framework
+- Context stability is key for habit maintenance; context change disrupts habits

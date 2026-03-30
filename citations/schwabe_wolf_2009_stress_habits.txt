@@ -1,0 +1,15 @@
+Schwabe, L., & Wolf, O. T. (2009).
+Stress Prompts Habit Behavior in Humans.
+Journal of Neuroscience, 29(22), 7191-7198.
+DOI: 10.1523/JNEUROSCI.0979-09.2009
+PMID: 19494141
+URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC6666491/
+
+KEY FINDINGS:
+- Acute stress shifts behavioral control from goal-directed to habitual
+- Stressed subjects chose devalued actions as often as valued ones (controls avoided devalued)
+- Only 28% of stressed participants could name action-outcome associations vs. 58% of controls
+- Mediated by simultaneous glucocorticoid and noradrenergic activation
+- Stress weakens PFC-dependent cognitive processes while strengthening striatum-dependent automatic behaviors
+- Glucocorticoids or yohimbine alone did NOT induce habit action -- both needed
+- Implications for compulsive behaviors and addiction vulnerability

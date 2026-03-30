@@ -1,0 +1,9 @@
+Oscarsson, M., Carlbring, P., Andersson, G., & Rozental, A. (2020).
+A large-scale experiment on New Year's resolutions: Approach-oriented goals are more successful than avoidance-oriented goals.
+PLoS ONE, 15(12), e0234097. DOI: 10.1371/journal.pone.0234097
+URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC7725288/
+
+N=1,066. 88.8% successful in January -> 54.7% by December.
+Approach goals: 58.9% success vs avoidance: 47.1% (p=.002).
+Physical health (33%), weight loss (20%), eating (13%) most common.
+Moderate support > no support > extended support (surprising).

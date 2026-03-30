@@ -1,0 +1,8 @@
+Lenne, R. L. (2019).
+What sustains behavioral changes? A dynamical systems approach to improving theories of change in physical exercise.
+Ph.D. dissertation, University of Minnesota. https://hdl.handle.net/11299/209098
+
+Two key processes: automaticity/habit and motivation/satisfaction.
+Behavior tracked via Fitbit in Fitbit users who recently increased exercise.
+Within-person increases in automaticity associated with increases in exercise time.
+Diverging trajectories of automaticity and satisfaction predict maintenance success.
