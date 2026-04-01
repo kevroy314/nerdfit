@@ -7,6 +7,10 @@ class App {
   constructor() {
     this.canvas = document.getElementById('main-canvas');
     this.renderer = new Renderer(this.canvas);
+    this.stripCanvas = document.getElementById('strip-canvas');
+    this.strip = this.stripCanvas ? new StripRenderer(this.stripCanvas) : null;
+    this.heatmaps = new HeatmapManager();
+    this.heatmaps.load('heatmap_data.json'); // Will silently fail if not available yet
     this.dynamics = new HabitDynamics();
     this.history = [];
     this.events = [];
@@ -366,7 +370,10 @@ class App {
 
   renderLoop() {
     this.simulateStep();
-    this.renderer.render(this.history, this.events, this.currentIdx, this.dynamics.p);
+    this.renderer.render(this.history, this.events, this.currentIdx, this.dynamics.p, this.heatmaps);
+    if (this.strip) {
+      this.strip.render(this.history, this.events, this.currentIdx, this.t_end);
+    }
     requestAnimationFrame(() => this.renderLoop());
   }
 }

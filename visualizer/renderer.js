@@ -28,9 +28,10 @@ class Renderer {
     this.view = view;
   }
 
-  render(history, events, currentIdx, params) {
+  render(history, events, currentIdx, params, heatmaps) {
     const ctx = this.ctx;
     ctx.clearRect(0, 0, this.w, this.h);
+    this._heatmaps = heatmaps || null;
 
     switch (this.view) {
       case 'hm': this.renderStateSpace(history, events, currentIdx, 'H', 'M', params); break;
@@ -53,6 +54,12 @@ class Renderer {
 
     const toX = v => pad.left + (v - xRange[0]) / (xRange[1] - xRange[0]) * pw;
     const toY = v => pad.top + ph - (v - yRange[0]) / (yRange[1] - yRange[0]) * ph;
+
+    // Heatmap underlay (before grid so grid draws on top)
+    if (this._heatmaps && this._heatmaps.loaded && this._heatmaps.activeMetric !== 'none') {
+      this._heatmaps.renderUnderlay(ctx, xKey, yKey, toX, toY, pw, ph, pad.left, pad.top);
+      this._heatmaps.drawLegend(ctx, pad.left + pw - 120, pad.top + 6, 100, 8);
+    }
 
     // Background grid
     ctx.strokeStyle = '#151520';
