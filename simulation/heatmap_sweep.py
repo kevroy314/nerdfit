@@ -50,7 +50,9 @@ def run_single(args):
 
     success = 1.0 if H[-1] > 0.5 else 0.0
 
-    # Sequential accumulation matching CUDA kernel exactly
+    # Metric accumulation: sequential += over Python floats for reproducibility.
+    # The state arrays (H, M, E, I, C, B) come from dynamics.py's vectorized numpy,
+    # which is our ground truth. We just accumulate metrics sequentially.
     cum_cog = 0.0
     cum_act = 0.0
     cum_path = 0.0
@@ -61,26 +63,30 @@ def run_single(args):
     if reached:
         time_to_habit = 0.0
 
+    # Pre-extract as Python floats for sequential accumulation
+    Hf = H.astype(np.float64)
+    Mf = M.astype(np.float64)
+    Ef = E.astype(np.float64)
+    If = I.astype(np.float64)
+    Cf = C.astype(np.float64)
+    Bf = B.astype(np.float64)
+
     for i in range(1, n):
-        ci, hi, bi = float(C[i]), float(H[i]), float(B[i])
+        ci, hi, bi = float(Cf[i]), float(Hf[i]), float(Bf[i])
         cum_cog += ci * (1.0 - hi) * bi * DT
         cum_act += ci * bi * DT
 
-        dh = float(H[i] - H[i-1])
-        dm = float(M[i] - M[i-1])
-        de = float(E[i] - E[i-1])
-        di = float(I[i] - I[i-1])
-        dc = float(C[i] - C[i-1])
+        dh = float(Hf[i] - Hf[i-1])
+        dm = float(Mf[i] - Mf[i-1])
+        de = float(Ef[i] - Ef[i-1])
+        di = float(If[i] - If[i-1])
+        dc = float(Cf[i] - Cf[i-1])
         cum_path += float(np.sqrt(dh*dh + dm*dm + de*de + di*di + dc*dc))
 
-        if not reached and H[i] > 0.5:
+        if not reached and Hf[i] > 0.5:
             time_to_habit = float(i * DT)
             reached = True
 
-        # settle: i >= q3+1 to match GPU's step >= q3_start where q3_start = q3
-        # GPU step s gives diff between output indices s+1 and s.
-        # CPU i gives diff between indices i and i-1.
-        # For the same diffs: CPU i = GPU step + 1. So CPU i >= q3+1 when GPU step >= q3.
         if i >= q3 + 1:
             settle_acc += (abs(dh) + abs(dm) + abs(de) + abs(di) + abs(dc)) / DT
             settle_n += 1
