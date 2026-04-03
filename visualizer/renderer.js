@@ -297,6 +297,11 @@ class Renderer {
     const toX = h => pad.left + h * pw;
     const toY = c => pad.top + ph - c * ph;
 
+    // Heatmap underlay (if active, replaces region shading)
+    if (this._heatmaps && this._heatmaps.loaded && this._heatmaps.activeMetric !== 'none') {
+      this._heatmaps.renderUnderlay(ctx, 'H', 'C', toX, toY, pw, ph, pad.left, pad.top);
+      this._heatmaps.drawLegend(ctx, pad.left + pw - 120, pad.top + 6, 100, 8);
+    } else {
     // --- Region shading (drawn first, behind everything) ---
     // Stable habit region: lower-right triangle
     ctx.fillStyle = 'rgba(40, 120, 70, 0.08)';
@@ -332,6 +337,7 @@ class Renderer {
     }
     ctx.closePath();
     ctx.fill();
+    } // end else (no heatmap)
 
     // Grid
     ctx.strokeStyle = '#1a1a2a';

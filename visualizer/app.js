@@ -10,7 +10,7 @@ class App {
     this.stripCanvas = document.getElementById('strip-canvas');
     this.strip = this.stripCanvas ? new StripRenderer(this.stripCanvas) : null;
     this.heatmaps = new HeatmapManager();
-    this.heatmaps.load('heatmap_data.json'); // Will silently fail if not available yet
+    this.heatmaps.load('heatmap_data.json', 'heatmap_data_gpu.json');
     this.dynamics = new HabitDynamics();
     this.history = [];
     this.events = [];
@@ -314,17 +314,34 @@ class App {
       this.simState = this.dynamics.step(this.simState, this.dt, mImpulse, eImpulse);
       this.simTime += this.dt;
 
+      // Compute running aggregate metrics
+      const s = this.simState;
+      const C = s.C !== undefined ? s.C : this.dynamics.p.C;
+      const cogLoad = C * (1 - s.H) * s.B;  // Instantaneous cognitive load
+      const activity = C * s.B;               // Instantaneous activity volume
+
+      // Running totals (accumulated)
+      const prev = this.history.length > 0 ? this.history[this.history.length - 1] : null;
+      const cumCogLoad = (prev ? prev.cumCogLoad : 0) + cogLoad * this.dt;
+      const cumActivity = (prev ? prev.cumActivity : 0) + activity * this.dt;
+
+      // Path length increment
+      const dH = prev ? Math.abs(s.H - prev.H) : 0;
+      const dM = prev ? Math.abs(s.M - prev.M) : 0;
+      const dE = prev ? Math.abs(s.E - prev.E) : 0;
+      const pathInc = Math.sqrt(dH*dH + dM*dM + dE*dE);
+      const cumPath = (prev ? prev.cumPath : 0) + pathInc;
+
+      // Settling: exponential moving average of |derivatives|
+      const deriv = dH + dM + dE;
+      const settling = prev ? 0.95 * prev.settling + 0.05 * deriv / this.dt : 0;
+
       // Record history (downsample for performance)
       if (this.history.length < 10000) {
         this.history.push({
           t: this.simTime,
-          H: this.simState.H,
-          M: this.simState.M,
-          E: this.simState.E,
-          I: this.simState.I,
-          C: this.simState.C,
-          B: this.simState.B,
-          F: this.simState.F,
+          H: s.H, M: s.M, E: s.E, I: s.I, C: C, B: s.B, F: s.F,
+          cogLoad, activity, cumCogLoad, cumActivity, cumPath, settling,
         });
       }
       this.currentIdx = this.history.length - 1;

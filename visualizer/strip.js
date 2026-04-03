@@ -8,7 +8,11 @@ class StripRenderer {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.dpr = window.devicePixelRatio || 1;
-    this.visible = { H: true, M: true, E: false, I: false, C: true, B: false };
+    this.visible = {
+      H: true, M: true, E: false, I: false, C: true, B: false,
+      cogLoad: false, activity: false, cumCogLoad: false,
+      cumActivity: false, cumPath: false, settling: false,
+    };
     this.resize();
     window.addEventListener('resize', () => this.resize());
   }
@@ -48,6 +52,14 @@ class StripRenderer {
       { key: 'I', color: '#8844cc', range: [0, 1] },
       { key: 'C', color: '#aacc44', range: [0, 1] },
       { key: 'B', color: '#44aacc', range: [0, 1] },
+      // Aggregate metrics (instantaneous)
+      { key: 'cogLoad', color: '#ff6688', range: [0, 0.5] },
+      { key: 'activity', color: '#66ffaa', range: [0, 0.8] },
+      // Cumulative metrics (auto-ranged)
+      { key: 'cumCogLoad', color: '#ff668866', range: 'auto' },
+      { key: 'cumActivity', color: '#66ffaa66', range: 'auto' },
+      { key: 'cumPath', color: '#ffaa6666', range: 'auto' },
+      { key: 'settling', color: '#aa88ff', range: [0, 0.1] },
     ];
 
     // Event markers (vertical lines) -- draw first so lines go on top
@@ -91,7 +103,20 @@ class StripRenderer {
     for (const v of vars) {
       if (!this.visible[v.key]) continue;
 
-      const [lo, hi] = v.range;
+      // Compute range
+      let lo, hi;
+      if (v.range === 'auto') {
+        // Auto-range from data
+        let vmin = Infinity, vmax = -Infinity;
+        for (let i = 0; i < n; i += step) {
+          const val = history[i][v.key];
+          if (val !== undefined) { vmin = Math.min(vmin, val); vmax = Math.max(vmax, val); }
+        }
+        lo = Math.min(0, vmin);
+        hi = Math.max(vmax, lo + 0.01);
+      } else {
+        [lo, hi] = v.range;
+      }
       const toY = val => pad.top + ph - ((Math.min(Math.max(val, lo), hi) - lo) / (hi - lo)) * ph;
 
       ctx.strokeStyle = v.color;

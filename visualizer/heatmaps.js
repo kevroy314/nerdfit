@@ -66,27 +66,50 @@ const METRIC_LABELS = {
 
 class HeatmapManager {
   constructor() {
-    this.data = null;
+    this.dataCPU = null;    // Ground truth (CPU, lower resolution)
+    this.dataGPU = null;    // High-res approximation (GPU, may have tiny numerical drift)
+    this.data = null;       // Active data source
+    this.source = 'cpu';    // 'cpu' or 'gpu'
     this.activeMetric = 'success';
-    this.alpha = 0.25; // Underlay opacity
-    this.imageCache = {}; // Cache rendered ImageData per key
+    this.alpha = 0.25;
+    this.imageCache = {};
     this.loading = false;
     this.loaded = false;
   }
 
-  async load(url) {
-    if (this.loading || this.loaded) return;
+  async load(cpuUrl, gpuUrl) {
+    if (this.loading) return;
     this.loading = true;
     try {
-      const resp = await fetch(url);
-      this.data = await resp.json();
-      this.loaded = true;
-      console.log('Heatmap data loaded:', this.data.n_points, 'points,',
-                  Object.keys(this.data.heatmaps).length, 'planes');
+      const [cpuResp, gpuResp] = await Promise.allSettled([
+        fetch(cpuUrl).then(r => r.json()),
+        gpuUrl ? fetch(gpuUrl).then(r => r.json()) : Promise.reject('no gpu url'),
+      ]);
+      if (cpuResp.status === 'fulfilled') {
+        this.dataCPU = cpuResp.value;
+        this.data = this.dataCPU;
+        this.loaded = true;
+        console.log('CPU heatmap:', this.dataCPU.n_points, 'points');
+      }
+      if (gpuResp.status === 'fulfilled') {
+        this.dataGPU = gpuResp.value;
+        console.log('GPU heatmap:', this.dataGPU.n_points, 'points (high-res approx)');
+      }
     } catch (e) {
       console.warn('Could not load heatmap data:', e.message);
     }
     this.loading = false;
+  }
+
+  setSource(source) {
+    if (source === 'gpu' && this.dataGPU) {
+      this.data = this.dataGPU;
+      this.source = 'gpu';
+    } else {
+      this.data = this.dataCPU;
+      this.source = 'cpu';
+    }
+    this.imageCache = {}; // Clear cache on source change
   }
 
   setMetric(metric) {
@@ -108,9 +131,15 @@ class HeatmapManager {
   renderUnderlay(ctx, v1, v2, toX, toY, pw, ph, padLeft, padTop) {
     if (!this.loaded || !this.data) return;
 
-    const key = v1 < v2 ? `${v1}_${v2}` : `${v2}_${v1}`;
-    const swapped = v1 > v2; // If axes are swapped relative to data
-    const hm = this.data.heatmaps[key];
+    // Try both orderings since sweep uses list order, not alphabetical
+    let key = `${v1}_${v2}`;
+    let swapped = false;
+    let hm = this.data.heatmaps[key];
+    if (!hm) {
+      key = `${v2}_${v1}`;
+      swapped = true;
+      hm = this.data.heatmaps[key];
+    }
     if (!hm) return;
 
     const metric = hm.metrics[this.activeMetric];
@@ -118,37 +147,45 @@ class HeatmapManager {
 
     const cacheKey = `${key}_${this.activeMetric}_${pw}_${ph}`;
     if (!this.imageCache[cacheKey]) {
-      // Render to offscreen canvas
-      const offscreen = document.createElement('canvas');
-      offscreen.width = pw;
-      offscreen.height = ph;
-      const octx = offscreen.getContext('2d');
-
-      const data = metric.data; // [res][res]
+      const data = metric.data;
       const res = data.length;
       const cmap = COLORMAPS[METRIC_COLORMAPS[this.activeMetric] || 'viridis'];
       const vmin = metric.min;
       const vmax = metric.max;
       const range = vmax - vmin || 1;
 
-      const cellW = pw / res;
-      const cellH = ph / res;
+      // Render at native resolution (small), then let canvas scale with smoothing
+      const small = document.createElement('canvas');
+      small.width = res;
+      small.height = res;
+      const sctx = small.getContext('2d');
+      const imgData = sctx.createImageData(res, res);
 
       for (let i = 0; i < res; i++) {
         for (let j = 0; j < res; j++) {
-          // data[i][j]: i = v1 axis, j = v2 axis
           const val = swapped ? data[j][i] : data[i][j];
           const t = Math.max(0, Math.min(1, (val - vmin) / range));
           const [r, g, b] = cmap(t);
-          octx.fillStyle = `rgb(${r},${g},${b})`;
-          // v1 on x-axis (i), v2 on y-axis (j, inverted)
-          if (swapped) {
-            octx.fillRect(j * cellW, ph - (i + 1) * cellH, cellW + 1, cellH + 1);
-          } else {
-            octx.fillRect(i * cellW, ph - (j + 1) * cellH, cellW + 1, cellH + 1);
-          }
+          // v1 on x (i), v2 on y (j inverted: row 0 = top = high v2)
+          const row = swapped ? (res - 1 - i) : (res - 1 - j);
+          const col = swapped ? j : i;
+          const idx = (row * res + col) * 4;
+          imgData.data[idx] = r;
+          imgData.data[idx + 1] = g;
+          imgData.data[idx + 2] = b;
+          imgData.data[idx + 3] = 255;
         }
       }
+      sctx.putImageData(imgData, 0, 0);
+
+      // Scale up with bilinear interpolation
+      const offscreen = document.createElement('canvas');
+      offscreen.width = pw;
+      offscreen.height = ph;
+      const octx = offscreen.getContext('2d');
+      octx.imageSmoothingEnabled = true;
+      octx.imageSmoothingQuality = 'high';
+      octx.drawImage(small, 0, 0, pw, ph);
 
       this.imageCache[cacheKey] = offscreen;
     }
@@ -181,17 +218,22 @@ class HeatmapManager {
     ctx.textAlign = 'center';
     ctx.fillText(label, x + w / 2, y - 3);
 
-    // Min/max labels
-    const hmKey = Object.keys(this.data.heatmaps)[0];
-    if (hmKey) {
-      const metric = this.data.heatmaps[hmKey].metrics[this.activeMetric];
-      if (metric) {
-        ctx.textAlign = 'left';
-        ctx.fillText(metric.min.toFixed(1), x, y + h + 10);
-        ctx.textAlign = 'right';
-        ctx.fillText(metric.max.toFixed(1), x + w, y + h + 10);
-      }
+    // Min/max from summary stats
+    if (this.data.summary && this.data.summary[this.activeMetric]) {
+      const s = this.data.summary[this.activeMetric];
+      ctx.textAlign = 'left';
+      ctx.fillText(s.min.toFixed(1), x, y + h + 10);
+      ctx.textAlign = 'right';
+      ctx.fillText(s.max.toFixed(1), x + w, y + h + 10);
     }
+    // Source badge
+    const srcLabel = this.source === 'gpu'
+      ? `GPU ~${(this.data.n_points/1000).toFixed(0)}K pts`
+      : `CPU ${(this.data.n_points/1000).toFixed(1)}K pts`;
+    ctx.fillStyle = this.source === 'gpu' ? '#886633' : '#338866';
+    ctx.font = '8px system-ui';
+    ctx.textAlign = 'right';
+    ctx.fillText(srcLabel, x + w, y - 12);
   }
 }
 

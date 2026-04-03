@@ -248,6 +248,10 @@ select { width: 100%; padding: 5px; background: #1a1a28; border: 1px solid #2a2a
             <option value="settling">Settling Stability</option>
             <option value="time_to_habit">Time to Habit</option>
           </select>
+          <select id="heatmap-source" style="margin-top:3px">
+            <option value="cpu">CPU (exact)</option>
+            <option value="gpu">GPU (high-res)</option>
+          </select>
         </div>
         <div class="legend">
           <div class="legend-item"><div class="legend-dot" style="background:#44cc88"></div>H</div>
@@ -382,6 +386,10 @@ select { width: 100%; padding: 5px; background: #1a1a28; border: 1px solid #2a2a
       <label><input type="checkbox" data-strip="I"> <span style="color:#8844cc">I</span></label>
       <label><input type="checkbox" data-strip="C" checked> <span style="color:#aacc44">C</span></label>
       <label><input type="checkbox" data-strip="B"> <span style="color:#44aacc">B</span></label>
+      <span style="color:#333">|</span>
+      <label><input type="checkbox" data-strip="cogLoad"> <span style="color:#ff6688">Cog</span></label>
+      <label><input type="checkbox" data-strip="activity"> <span style="color:#66ffaa">Act</span></label>
+      <label><input type="checkbox" data-strip="settling"> <span style="color:#aa88ff">Stb</span></label>
     </div>
   </div>
 
@@ -469,7 +477,13 @@ document.querySelectorAll('#mobile-controls .view-toggle .btn').forEach(btn => {
 document.getElementById('heatmap-metric').addEventListener('change', e => {
   if (window.app && window.app.heatmaps) {
     window.app.heatmaps.setMetric(e.target.value);
-    window.app.heatmaps.imageCache = {}; // Clear cache on metric change
+    window.app.heatmaps.imageCache = {};
+  }
+});
+// Heatmap source toggle (CPU exact vs GPU high-res)
+document.getElementById('heatmap-source').addEventListener('change', e => {
+  if (window.app && window.app.heatmaps) {
+    window.app.heatmaps.setSource(e.target.value);
   }
 });
 

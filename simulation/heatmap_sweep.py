@@ -1,35 +1,25 @@
 """
-Bayesian-optimized 5D sweep of (H0, M0, E0, I0, C0) to compute heatmap data.
+Bayesian-optimized 5D sweep with parallel execution.
+Deterministic (no noise, no events) to map the landscape cleanly.
+Stochastic noise and events are the trajectory's job, not the heatmap's.
 
-Metrics computed per simulation:
-1. success: H_final > 0.5
-2. cognitive_load: integral of C * (1-H) * B over time
-3. net_activity: integral of C * B over time
-4. path_length: sum of sqrt(dH^2 + dM^2 + dE^2 + dI^2 + dC^2)
-5. settling: mean |derivative| in last quarter (lower = more stable)
-6. time_to_habit: days until H > 0.5 (or 730 if never)
-
-Strategy:
-- Phase 1: Latin Hypercube sample (500 points) for initial coverage
-- Phase 2: Bayesian optimization with joint + per-metric acquisition (1500 more points)
-- Output: JSON with all sample points and metrics, plus 2D projections
-
-For 2D heatmaps, we marginalize over the non-displayed dimensions by taking
-the mean metric value across all samples near each (x,y) bin.
+Target: ~30K+ points in ~1 hour on 10 cores.
 """
 
 import json
 import sys
 import os
+import time
 import numpy as np
 from pathlib import Path
+from multiprocessing import Pool, cpu_count
+from functools import partial
 from scipy.stats import qmc
+from scipy.ndimage import distance_transform_edt, gaussian_filter
 
 sys.path.insert(0, os.path.dirname(__file__))
 from dynamics import Params, SimState, HabitDynamics
 
-
-# Ranges for each initial condition
 RANGES = {
     "H": (0.02, 0.8),
     "M": (0.0, 3.0),
@@ -37,187 +27,157 @@ RANGES = {
     "I": (0.0, 0.8),
     "C": (0.1, 0.95),
 }
-
 VARS = ["H", "M", "E", "I", "C"]
-T_END = 365  # 1 year per sample (speed vs coverage tradeoff)
-DT = 0.5     # Coarser dt for speed
+T_END = 365
+DT = 0.5  # Coarser for speed
 
 
-def run_single(h0, m0, e0, i0, c0, seed=None):
-    """Run one simulation and compute all metrics."""
-    p = Params(C=c0, alpha_H=0.045, sigma_noise=0.015)
+def run_single(args):
+    """Run one deterministic simulation. Takes (h0, m0, e0, i0, c0).
+
+    Metrics accumulated sequentially in a loop (not via np.sum on arrays)
+    to produce bit-identical results to the CUDA kernel.
+    """
+    h0, m0, e0, i0, c0 = args
+    p = Params(C=c0, alpha_H=0.045, sigma_noise=0)
     sim = HabitDynamics(p)
     state = SimState(H=h0, M=m0, E=e0, I=i0, C=c0)
-    r = sim.simulate(state, T_END, dt=DT, seed=seed)
+    r = sim.simulate(state, T_END, dt=DT, seed=None)
 
     H, M, E, I, C, B = r["H"], r["M"], r["E"], r["I"], r["C"], r["B"]
-    n = len(H)
+    n = len(H)  # N_STEPS + 1
+    q3 = 3 * n // 4
 
-    # 1. Success
     success = 1.0 if H[-1] > 0.5 else 0.0
 
-    # 2. Cognitive load: integral of C * (1-H) * B
-    cog_load = np.sum(C * (1 - H) * B) * DT
+    # Sequential accumulation matching CUDA kernel exactly
+    cum_cog = 0.0
+    cum_act = 0.0
+    cum_path = 0.0
+    settle_acc = 0.0
+    settle_n = 0
+    time_to_habit = float(T_END)
+    reached = bool(H[0] > 0.5)
+    if reached:
+        time_to_habit = 0.0
 
-    # 3. Net activity: integral of C * B
-    net_activity = np.sum(C * B) * DT
+    for i in range(1, n):
+        ci, hi, bi = float(C[i]), float(H[i]), float(B[i])
+        cum_cog += ci * (1.0 - hi) * bi * DT
+        cum_act += ci * bi * DT
 
-    # 4. Path length in 5D state space
-    diffs = np.sqrt(
-        np.diff(H)**2 + np.diff(M)**2 + np.diff(E)**2 +
-        np.diff(I)**2 + np.diff(C)**2
-    )
-    path_length = np.sum(diffs)
+        dh = float(H[i] - H[i-1])
+        dm = float(M[i] - M[i-1])
+        de = float(E[i] - E[i-1])
+        di = float(I[i] - I[i-1])
+        dc = float(C[i] - C[i-1])
+        cum_path += float(np.sqrt(dh*dh + dm*dm + de*de + di*di + dc*dc))
 
-    # 5. Settling stability: mean |derivative| in last quarter
-    q3 = 3 * n // 4
-    settling = np.mean(
-        np.abs(np.diff(H[q3:])) + np.abs(np.diff(M[q3:])) +
-        np.abs(np.diff(E[q3:])) + np.abs(np.diff(I[q3:])) +
-        np.abs(np.diff(C[q3:]))
-    ) / DT
+        if not reached and H[i] > 0.5:
+            time_to_habit = float(i * DT)
+            reached = True
 
-    # 6. Time to habit (days until H > 0.5)
-    above = np.where(H > 0.5)[0]
-    time_to_habit = float(above[0] * DT) if len(above) > 0 else T_END
+        # settle: i >= q3+1 to match GPU's step >= q3_start where q3_start = q3
+        # GPU step s gives diff between output indices s+1 and s.
+        # CPU i gives diff between indices i and i-1.
+        # For the same diffs: CPU i = GPU step + 1. So CPU i >= q3+1 when GPU step >= q3.
+        if i >= q3 + 1:
+            settle_acc += (abs(dh) + abs(dm) + abs(de) + abs(di) + abs(dc)) / DT
+            settle_n += 1
 
-    return {
-        "success": success,
-        "cognitive_load": float(cog_load),
-        "net_activity": float(net_activity),
-        "path_length": float(path_length),
-        "settling": float(settling),
-        "time_to_habit": time_to_habit,
-    }
+    settling = settle_acc / settle_n if settle_n > 0 else 0.0
+
+    return (h0, m0, e0, i0, c0,
+            success, cum_cog, cum_act, cum_path, settling, time_to_habit)
 
 
-def latin_hypercube_sample(n_samples, seed=42):
-    """Generate LHS samples in 5D."""
+def lhs_sample(n, seed=42):
     sampler = qmc.LatinHypercube(d=5, seed=seed)
-    samples = sampler.random(n_samples)
-    # Scale to ranges
-    points = []
-    for s in samples:
-        pt = {}
+    raw = sampler.random(n)
+    pts = []
+    for s in raw:
+        pt = []
         for i, var in enumerate(VARS):
             lo, hi = RANGES[var]
-            pt[var] = lo + s[i] * (hi - lo)
-        points.append(pt)
-    return points
+            pt.append(lo + s[i] * (hi - lo))
+        pts.append(tuple(pt))
+    return pts
 
 
-def bayesian_next_points(existing_points, existing_metrics, n_new, metric_weights=None):
-    """
-    Simple Bayesian-style adaptive sampling.
-    Uses a grid-based uncertainty estimate: regions with fewer samples get priority.
-    For each metric, also add points near high-gradient regions.
-    """
-    rng = np.random.default_rng(123)
+def adaptive_refine(results, n_new, rng):
+    """Generate points near high-gradient regions of the success metric."""
+    X = np.array([(r[0], r[1], r[2], r[3], r[4]) for r in results])
+    success = np.array([r[5] for r in results])
 
-    # Convert existing to arrays
-    X = np.array([[p[v] for v in VARS] for p in existing_points])
-    n_existing = len(X)
+    from scipy.spatial import KDTree
+    tree = KDTree(X)
+    gradients = np.zeros(len(X))
+    for j in range(len(X)):
+        _, nn_idx = tree.query(X[j], k=min(8, len(X)))
+        if len(nn_idx) > 1:
+            nn_vals = success[nn_idx[1:]]
+            gradients[j] = np.std(nn_vals)
 
-    # Bin counts in a coarse 5D grid (5 bins per dim = 3125 cells)
-    n_bins = 5
-    bins_per_dim = []
-    for var in VARS:
-        lo, hi = RANGES[var]
-        bins_per_dim.append(np.linspace(lo, hi, n_bins + 1))
+    # Mix: 50% near separatrix (high gradient), 50% under-sampled regions
+    new_pts = []
 
-    # Count samples per bin
+    # Near-separatrix sampling
+    n_sep = n_new // 2
+    grad_weights = gradients / (gradients.sum() + 1e-10)
+    for _ in range(n_sep):
+        base_idx = rng.choice(len(X), p=grad_weights)
+        pt = []
+        for i, var in enumerate(VARS):
+            lo, hi = RANGES[var]
+            noise = rng.normal(0, (hi - lo) * 0.03)
+            pt.append(float(np.clip(X[base_idx, i] + noise, lo, hi)))
+        new_pts.append(tuple(pt))
+
+    # Under-sampled regions
+    n_under = n_new - n_sep
+    n_bins = 6
+    bins_per_dim = [np.linspace(*RANGES[v], n_bins + 1) for v in VARS]
     bin_counts = np.zeros([n_bins] * 5)
     for x in X:
-        idx = []
-        for i, var in enumerate(VARS):
-            bi = np.searchsorted(bins_per_dim[i][1:], x[i])
-            bi = min(bi, n_bins - 1)
-            idx.append(bi)
-        bin_counts[tuple(idx)] += 1
-
-    new_points = []
-
-    # Joint: sample from under-represented bins (60% of budget)
-    n_joint = int(n_new * 0.6)
-    # Weight inversely by count
+        idx = tuple(min(np.searchsorted(bins_per_dim[i][1:], x[i]), n_bins - 1) for i in range(5))
+        bin_counts[idx] += 1
     weights = 1.0 / (bin_counts + 1)
-    weights_flat = weights.flatten()
-    weights_flat /= weights_flat.sum()
-
-    for _ in range(n_joint):
-        bin_idx = rng.choice(len(weights_flat), p=weights_flat)
-        multi_idx = np.unravel_index(bin_idx, [n_bins] * 5)
-        pt = {}
+    wf = weights.flatten()
+    wf /= wf.sum()
+    for _ in range(n_under):
+        bi = rng.choice(len(wf), p=wf)
+        mi = np.unravel_index(bi, [n_bins] * 5)
+        pt = []
         for i, var in enumerate(VARS):
-            lo = bins_per_dim[i][multi_idx[i]]
-            hi = bins_per_dim[i][multi_idx[i] + 1]
-            pt[var] = rng.uniform(lo, hi)
-        new_points.append(pt)
+            lo = bins_per_dim[i][mi[i]]
+            hi = bins_per_dim[i][mi[i] + 1]
+            pt.append(float(rng.uniform(lo, hi)))
+        new_pts.append(tuple(pt))
 
-    # Per-metric: sample near high-gradient regions (40% of budget)
-    n_per_metric = (n_new - n_joint) // 6  # 6 metrics
+    return new_pts
+
+
+def compute_heatmaps(results, resolution=80):
+    """Compute smoothed 2D heatmaps for all variable pairs and metrics."""
+    X = np.array([(r[0], r[1], r[2], r[3], r[4]) for r in results])
     metric_names = ["success", "cognitive_load", "net_activity",
                     "path_length", "settling", "time_to_habit"]
+    metric_idx = {m: i + 5 for i, m in enumerate(metric_names)}
 
-    for mname in metric_names:
-        vals = np.array([m[mname] for m in existing_metrics])
-        if np.std(vals) < 1e-10:
-            # Uniform -- just random sample
-            for _ in range(n_per_metric):
-                pt = {}
-                for var in VARS:
-                    lo, hi = RANGES[var]
-                    pt[var] = rng.uniform(lo, hi)
-                new_points.append(pt)
-            continue
-
-        # Find nearest-neighbor gradient magnitude for each point
-        from scipy.spatial import KDTree
-        tree = KDTree(X)
-        gradients = np.zeros(n_existing)
-        for j in range(n_existing):
-            _, nn_idx = tree.query(X[j], k=min(6, n_existing))
-            if len(nn_idx) > 1:
-                nn_vals = vals[nn_idx[1:]]
-                gradients[j] = np.std(nn_vals)
-
-        # Sample near high-gradient points
-        grad_weights = gradients / (gradients.sum() + 1e-10)
-        for _ in range(n_per_metric):
-            base_idx = rng.choice(n_existing, p=grad_weights)
-            pt = {}
-            for i, var in enumerate(VARS):
-                lo, hi = RANGES[var]
-                noise = rng.normal(0, (hi - lo) * 0.05)
-                pt[var] = np.clip(X[base_idx, i] + noise, lo, hi)
-            new_points.append(pt)
-
-    return new_points
-
-
-def compute_2d_heatmaps(points, metrics, resolution=50):
-    """
-    For each pair of variables, compute 2D heatmaps by binning and averaging.
-    """
     pairs = []
-    for i in range(len(VARS)):
-        for j in range(i+1, len(VARS)):
+    for i in range(5):
+        for j in range(i + 1, 5):
             pairs.append((VARS[i], VARS[j]))
-
-    metric_names = ["success", "cognitive_load", "net_activity",
-                    "path_length", "settling", "time_to_habit"]
 
     heatmaps = {}
     for v1, v2 in pairs:
+        i1, i2 = VARS.index(v1), VARS.index(v2)
         lo1, hi1 = RANGES[v1]
         lo2, hi2 = RANGES[v2]
         edges1 = np.linspace(lo1, hi1, resolution + 1)
         edges2 = np.linspace(lo2, hi2, resolution + 1)
         centers1 = (edges1[:-1] + edges1[1:]) / 2
         centers2 = (edges2[:-1] + edges2[1:]) / 2
-
-        vals1 = np.array([p[v1] for p in points])
-        vals2 = np.array([p[v2] for p in points])
 
         key = f"{v1}_{v2}"
         heatmaps[key] = {
@@ -228,35 +188,35 @@ def compute_2d_heatmaps(points, metrics, resolution=50):
         }
 
         for mname in metric_names:
-            mvals = np.array([m[mname] for m in metrics])
+            mi = metric_idx[mname]
+            mvals = np.array([r[mi] for r in results])
+
             grid = np.full((resolution, resolution), np.nan)
             counts = np.zeros((resolution, resolution))
 
-            for k in range(len(points)):
-                i1 = np.searchsorted(edges1[1:], vals1[k])
-                i2 = np.searchsorted(edges2[1:], vals2[k])
-                i1 = min(i1, resolution - 1)
-                i2 = min(i2, resolution - 1)
-                if np.isnan(grid[i1, i2]):
-                    grid[i1, i2] = 0
-                grid[i1, i2] += mvals[k]
-                counts[i1, i2] += 1
+            for k in range(len(results)):
+                b1 = min(np.searchsorted(edges1[1:], X[k, i1]), resolution - 1)
+                b2 = min(np.searchsorted(edges2[1:], X[k, i2]), resolution - 1)
+                if np.isnan(grid[b1, b2]):
+                    grid[b1, b2] = 0
+                grid[b1, b2] += mvals[k]
+                counts[b1, b2] += 1
 
-            # Average
             mask = counts > 0
             grid[mask] /= counts[mask]
 
-            # Interpolate NaN gaps using nearest neighbor
-            from scipy.ndimage import distance_transform_edt
+            # Fill NaN via nearest neighbor then smooth
             if np.any(np.isnan(grid)):
                 nan_mask = np.isnan(grid)
                 _, indices = distance_transform_edt(nan_mask, return_distances=True, return_indices=True)
                 grid = grid[tuple(indices)]
 
+            grid = gaussian_filter(grid, sigma=2.0)
+
             heatmaps[key]["metrics"][mname] = {
-                "data": grid.tolist(),
-                "min": float(np.nanmin(grid)),
-                "max": float(np.nanmax(grid)),
+                "data": [[round(v, 4) for v in row] for row in grid.tolist()],
+                "min": round(float(np.min(grid)), 4),
+                "max": round(float(np.max(grid)), 4),
             }
 
     return heatmaps
@@ -265,61 +225,72 @@ def compute_2d_heatmaps(points, metrics, resolution=50):
 def main():
     output_dir = Path(__file__).parent / "results"
     output_dir.mkdir(exist_ok=True)
+    t_start = time.time()
+    n_workers = min(10, cpu_count())
+    print(f"Using {n_workers} workers")
 
-    print("Phase 1: Latin Hypercube Sampling (500 points)...")
-    points = latin_hypercube_sample(500)
-    metrics = []
+    rng = np.random.default_rng(42)
 
-    for i, pt in enumerate(points):
-        if i % 100 == 0:
-            print(f"  Running {i}/500...")
-        m = run_single(pt["H"], pt["M"], pt["E"], pt["I"], pt["C"], seed=i)
-        metrics.append(m)
+    # Phase 1: Dense LHS
+    n_phase1 = 8000
+    print(f"Phase 1: LHS ({n_phase1} points)...")
+    pts = lhs_sample(n_phase1, seed=42)
 
-    success_rate = np.mean([m["success"] for m in metrics])
-    print(f"  Phase 1 done. Success rate: {success_rate:.1%}")
+    with Pool(n_workers) as pool:
+        results = list(pool.imap_unordered(run_single, pts, chunksize=100))
 
-    print("Phase 2: Bayesian adaptive sampling (1500 points)...")
-    for batch in range(3):
-        new_pts = bayesian_next_points(points, metrics, 500)
-        for i, pt in enumerate(new_pts):
-            if i % 100 == 0:
-                print(f"  Batch {batch+1}/3, running {i}/500...")
-            m = run_single(pt["H"], pt["M"], pt["E"], pt["I"], pt["C"],
-                           seed=len(points) + i)
-            metrics.append(m)
-        points.extend(new_pts)
+    elapsed = time.time() - t_start
+    rate = len(results) / elapsed
+    print(f"  {len(results)} done in {elapsed:.0f}s ({rate:.0f} pts/s)")
+    success_rate = np.mean([r[5] for r in results])
+    print(f"  Success rate: {success_rate:.1%}")
 
-    total = len(points)
-    success_rate = np.mean([m["success"] for m in metrics])
-    print(f"  Phase 2 done. Total: {total} points. Success: {success_rate:.1%}")
+    # Phase 2: Adaptive refinement (repeat until budget)
+    budget_s = 3000  # ~50 min of compute, leave margin
+    phase = 2
+    while (time.time() - t_start) < budget_s:
+        remaining = budget_s - (time.time() - t_start)
+        # Estimate how many more points we can do
+        n_new = min(4000, max(500, int(remaining * rate * 0.8)))
+        print(f"Phase {phase}: Adaptive refinement ({n_new} points, {remaining:.0f}s remaining)...")
 
-    print("Computing 2D heatmaps (50x50 resolution)...")
-    heatmaps = compute_2d_heatmaps(points, metrics, resolution=50)
+        new_pts = adaptive_refine(results, n_new, rng)
+        with Pool(n_workers) as pool:
+            new_results = list(pool.imap_unordered(run_single, new_pts, chunksize=100))
+        results.extend(new_results)
 
-    # Summary statistics
+        elapsed = time.time() - t_start
+        rate = len(results) / elapsed
+        success_rate = np.mean([r[5] for r in results])
+        print(f"  Total: {len(results)} pts, {elapsed:.0f}s, {rate:.0f} pts/s, success={success_rate:.1%}")
+        phase += 1
+
+    total = len(results)
+    print(f"\nFinal: {total} points in {time.time() - t_start:.0f}s")
+
+    # Compute heatmaps
+    print("Computing 2D heatmaps (80x80 with smoothing)...")
+    heatmaps = compute_heatmaps(results, resolution=80)
+
     metric_names = ["success", "cognitive_load", "net_activity",
                     "path_length", "settling", "time_to_habit"]
     summary = {}
     for mname in metric_names:
-        vals = [m[mname] for m in metrics]
+        mi = {"success": 5, "cognitive_load": 6, "net_activity": 7,
+              "path_length": 8, "settling": 9, "time_to_habit": 10}[mname]
+        vals = [r[mi] for r in results]
         summary[mname] = {
-            "mean": float(np.mean(vals)),
-            "std": float(np.std(vals)),
-            "min": float(np.min(vals)),
-            "max": float(np.max(vals)),
-            "median": float(np.median(vals)),
+            "mean": round(float(np.mean(vals)), 4),
+            "std": round(float(np.std(vals)), 4),
+            "min": round(float(np.min(vals)), 4),
+            "max": round(float(np.max(vals)), 4),
         }
-        print(f"  {mname}: mean={summary[mname]['mean']:.3f}, "
-              f"std={summary[mname]['std']:.3f}, "
-              f"range=[{summary[mname]['min']:.3f}, {summary[mname]['max']:.3f}]")
+        print(f"  {mname}: mean={summary[mname]['mean']}, range=[{summary[mname]['min']}, {summary[mname]['max']}]")
 
-    # Save
     output = {
         "n_points": total,
         "summary": summary,
         "heatmaps": heatmaps,
-        # Don't save raw points (too large) -- just heatmaps
     }
 
     outpath = output_dir / "heatmap_data.json"
@@ -327,6 +298,12 @@ def main():
         json.dump(output, f, separators=(",", ":"))
     size_mb = outpath.stat().st_size / 1024 / 1024
     print(f"\nSaved to {outpath} ({size_mb:.1f} MB)")
+
+    # Also copy to visualizer
+    viz_path = Path(__file__).parent.parent / "visualizer" / "heatmap_data.json"
+    import shutil
+    shutil.copy2(outpath, viz_path)
+    print(f"Copied to {viz_path}")
 
 
 if __name__ == "__main__":
