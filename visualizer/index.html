@@ -360,6 +360,27 @@ select { width: 100%; padding: 5px; background: #1a1a28; border: 1px solid #2a2a
       <div class="btn danger" id="btn-reset-m" style="font-size:9px;padding:3px 6px;flex:0">&#8634;</div>
     </div>
     <div class="mc-row">
+      <select id="heatmap-metric-m" class="select-inline" style="font-size:9px;padding:3px;flex:1">
+        <option value="none">Heatmap: Off</option>
+        <option value="success">Success</option>
+        <option value="cognitive_load">Cog Load</option>
+        <option value="net_activity">Activity</option>
+        <option value="path_length">Path Len</option>
+        <option value="settling">Settling</option>
+        <option value="time_to_habit">Time2Hab</option>
+      </select>
+      <select id="heatmap-source-m" class="select-inline" style="font-size:9px;padding:3px;flex:0 0 70px">
+        <option value="cpu">CPU</option>
+        <option value="gpu">GPU</option>
+      </select>
+      <select id="sim-speed-m" class="select-inline" style="font-size:9px;padding:3px;flex:0 0 45px">
+        <option value="1">1x</option>
+        <option value="5">5x</option>
+        <option value="10">10x</option>
+        <option value="50">50x</option>
+      </select>
+    </div>
+    <div class="mc-row">
       <select id="ev-type-select-m" class="select-inline" style="font-size:9px;padding:3px">
         <option value="shock">Shock</option>
         <option value="lapse">Lapse</option>
@@ -398,14 +419,14 @@ select { width: 100%; padding: 5px; background: #1a1a28; border: 1px solid #2a2a
   </div>
 </div>
 
-<script src="dynamics.js?v=8"></script>
-<script src="heatmaps.js?v=8"></script>
-<script src="scenarios.js?v=8"></script>
-<script src="events.js?v=8"></script>
-<script src="tooltips.js?v=8"></script>
-<script src="renderer.js?v=8"></script>
-<script src="strip.js?v=8"></script>
-<script src="app.js?v=8"></script>
+<script src="dynamics.js?v=9"></script>
+<script src="heatmaps.js?v=9"></script>
+<script src="scenarios.js?v=9"></script>
+<script src="events.js?v=9"></script>
+<script src="tooltips.js?v=9"></script>
+<script src="renderer.js?v=9"></script>
+<script src="strip.js?v=9"></script>
+<script src="app.js?v=9"></script>
 <div class="tip-popup" id="tip-popup"></div>
 
 <script>
@@ -484,6 +505,22 @@ document.getElementById('heatmap-metric').addEventListener('change', e => {
 document.getElementById('heatmap-source').addEventListener('change', e => {
   if (window.app && window.app.heatmaps) {
     window.app.heatmaps.setSource(e.target.value);
+    document.getElementById('heatmap-source-m').value = e.target.value;
+  }
+});
+
+// Mobile heatmap controls (sync with desktop)
+document.getElementById('heatmap-metric-m').addEventListener('change', e => {
+  if (window.app && window.app.heatmaps) {
+    window.app.heatmaps.setMetric(e.target.value);
+    window.app.heatmaps.imageCache = {};
+    document.getElementById('heatmap-metric').value = e.target.value;
+  }
+});
+document.getElementById('heatmap-source-m').addEventListener('change', e => {
+  if (window.app && window.app.heatmaps) {
+    window.app.heatmaps.setSource(e.target.value);
+    document.getElementById('heatmap-source').value = e.target.value;
   }
 });
 
@@ -494,6 +531,12 @@ document.querySelectorAll('#strip-toggles input[data-strip]').forEach(cb => {
       window.app.strip.setVisible(cb.dataset.strip, cb.checked);
     }
   });
+});
+
+// Mobile speed control
+document.getElementById('sim-speed-m').addEventListener('change', e => {
+  if (window.app) window.app.speed = parseFloat(e.target.value);
+  document.getElementById('sim-speed').value = e.target.value;
 });
 
 // Mobile event injection
