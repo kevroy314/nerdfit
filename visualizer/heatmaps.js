@@ -72,6 +72,7 @@ class HeatmapManager {
     this.source = 'cpu';    // 'cpu' or 'gpu'
     this.activeMetric = 'success';
     this.alpha = 0.25;
+    this.normMode = 'pct';  // 'linear', 'log', 'pct' (percentile)
     this.imageCache = {};
     this.loading = false;
     this.loaded = false;
@@ -99,6 +100,11 @@ class HeatmapManager {
       console.warn('Could not load heatmap data:', e.message);
     }
     this.loading = false;
+  }
+
+  setNormMode(mode) {
+    this.normMode = mode;
+    this.imageCache = {};
   }
 
   setSource(source) {
@@ -145,16 +151,52 @@ class HeatmapManager {
     const metric = hm.metrics[this.activeMetric];
     if (!metric) return;
 
-    const cacheKey = `${key}_${this.activeMetric}_${pw}_${ph}`;
+    const cacheKey = `${key}_${this.activeMetric}_${pw}_${ph}_${this.normMode || 'pct'}`;
     if (!this.imageCache[cacheKey]) {
       const data = metric.data;
       const res = data.length;
       const cmap = COLORMAPS[METRIC_COLORMAPS[this.activeMetric] || 'viridis'];
-      const vmin = metric.min;
-      const vmax = metric.max;
-      const range = vmax - vmin || 1;
+      const normMode = this.normMode || 'pct';  // 'linear', 'log', 'pct'
 
-      // Render at native resolution (small), then let canvas scale with smoothing
+      // Collect all values in the slice for percentile-based normalization
+      const allVals = [];
+      for (let i = 0; i < res; i++) {
+        for (let j = 0; j < res; j++) {
+          allVals.push(data[i][j]);
+        }
+      }
+      allVals.sort((a, b) => a - b);
+
+      // Percentile-based: map 2nd percentile to 0, 98th percentile to 1
+      // This stretches the colormap over where data actually lives
+      const p2 = allVals[Math.floor(allVals.length * 0.02)];
+      const p98 = allVals[Math.floor(allVals.length * 0.98)];
+      const vmin_pct = p2;
+      const vmax_pct = p98;
+
+      // Linear normalization using metric min/max
+      const vmin_lin = metric.min;
+      const vmax_lin = metric.max;
+
+      const valueToT = (val) => {
+        if (normMode === 'log') {
+          // log(1+x) scaling, normalized to metric range
+          const offset = Math.max(0, -vmin_lin) + 1;
+          const lv = Math.log(Math.max(0, val - vmin_lin) + 1);
+          const lmax = Math.log(vmax_lin - vmin_lin + 1);
+          return Math.max(0, Math.min(1, lmax > 0 ? lv / lmax : 0));
+        } else if (normMode === 'pct') {
+          const r = vmax_pct - vmin_pct;
+          if (r < 1e-10) return 0.5;  // Flat data: show mid-color
+          return Math.max(0, Math.min(1, (val - vmin_pct) / r));
+        } else {
+          // linear
+          const r = vmax_lin - vmin_lin;
+          if (r < 1e-10) return 0.5;
+          return Math.max(0, Math.min(1, (val - vmin_lin) / r));
+        }
+      };
+
       const small = document.createElement('canvas');
       small.width = res;
       small.height = res;
@@ -164,9 +206,8 @@ class HeatmapManager {
       for (let i = 0; i < res; i++) {
         for (let j = 0; j < res; j++) {
           const val = swapped ? data[j][i] : data[i][j];
-          const t = Math.max(0, Math.min(1, (val - vmin) / range));
+          const t = valueToT(val);
           const [r, g, b] = cmap(t);
-          // v1 on x (i), v2 on y (j inverted: row 0 = top = high v2)
           const row = swapped ? (res - 1 - i) : (res - 1 - j);
           const col = swapped ? j : i;
           const idx = (row * res + col) * 4;

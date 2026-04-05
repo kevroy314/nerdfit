@@ -252,6 +252,11 @@ select { width: 100%; padding: 5px; background: #1a1a28; border: 1px solid #2a2a
             <option value="cpu">CPU (exact)</option>
             <option value="gpu">GPU (high-res)</option>
           </select>
+          <select id="heatmap-norm" style="margin-top:3px">
+            <option value="pct">Scale: Percentile (2-98%)</option>
+            <option value="linear">Scale: Linear (min-max)</option>
+            <option value="log">Scale: Log</option>
+          </select>
         </div>
         <div class="legend">
           <div class="legend-item"><div class="legend-dot" style="background:#44cc88"></div>H</div>
@@ -419,14 +424,14 @@ select { width: 100%; padding: 5px; background: #1a1a28; border: 1px solid #2a2a
   </div>
 </div>
 
-<script src="dynamics.js?v=9"></script>
-<script src="heatmaps.js?v=9"></script>
-<script src="scenarios.js?v=9"></script>
-<script src="events.js?v=9"></script>
-<script src="tooltips.js?v=9"></script>
-<script src="renderer.js?v=9"></script>
-<script src="strip.js?v=9"></script>
-<script src="app.js?v=9"></script>
+<script src="dynamics.js?v=10"></script>
+<script src="heatmaps.js?v=10"></script>
+<script src="scenarios.js?v=10"></script>
+<script src="events.js?v=10"></script>
+<script src="tooltips.js?v=10"></script>
+<script src="renderer.js?v=10"></script>
+<script src="strip.js?v=10"></script>
+<script src="app.js?v=10"></script>
 <div class="tip-popup" id="tip-popup"></div>
 
 <script>
@@ -506,6 +511,13 @@ document.getElementById('heatmap-source').addEventListener('change', e => {
   if (window.app && window.app.heatmaps) {
     window.app.heatmaps.setSource(e.target.value);
     document.getElementById('heatmap-source-m').value = e.target.value;
+  }
+});
+
+// Heatmap normalization mode
+document.getElementById('heatmap-norm').addEventListener('change', e => {
+  if (window.app && window.app.heatmaps) {
+    window.app.heatmaps.setNormMode(e.target.value);
   }
 });
 
