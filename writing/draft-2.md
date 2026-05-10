@@ -1,0 +1,66 @@
+Galen the Gladiator Medic
+
+Aelius Galenus, Galen, was an ancient Roman physician to gladiators. He was, by most accounts, quite a character - challenging his fellow physicians to contests of surgery, examining the bodies of the dead to an unprecidented degree, and trying to really understand what constitutes health. His works are often filtered through midevil and reinaissance views of the Romans, but seemingly, he was extraordinary at his work. He introduced dietary and recovery changes for gladiators which dramatically reduced incidents of death among their ranks. Through the centuries, a pattern of lessons have formed around his philosophy, including the so-called six non-naturals. 
+
+* Air and environment
+* Food and drink
+* Sleep and waking
+* Motion and rest
+* Retention and evacuation
+* Passions of the soul
+
+Nerdfit
+
+More modern takes on these ancient beliefs persist and have been actively studied and discussed among academics. Pieces of this philosophy ring true today, though we might slice and dice things slightly differently. Health as a general concept is often sold to us in the form of consumeristic ideals. But true health nerds know the hard part about health is not the litany of tricks and gimmicks you have to parse to get to success, but the visceral internalization of the simple ideas that we have to live every day in order to maximize our health.
+
+I'm a huge nerd, as may already be apparent from the way I'm writing this. I suspect a lot of you reading this are nerds of your own variety. Whether you're a sports nerd, a video game nerd, a fantasy or sci-fi nerd, or some other unique nerd architype all your own, what unites us is our ability to do what Galen did - to obsess over a thing we find fascinating. It's a shame, therefore, that there's much such a divide between active nerddom and areas like fitness and nutricion. Nerds have the skillset needed to master these things, but rather than spending our Physical Education time during our schooling actually getting to be nerds about this stuff, we played dodgeball, hid under giant parachutes, and ran a random mile to keep us busy. What I hope to do in this article is show you how fun it can be to actually nerd out about your health and fitness, and maybe, if you buy in to the idea that being nerdfit is a thing you could do, I can inspire you a little to take the next steps.
+
+Credibility note: I've been a somewhat passive exerciser for a long time, but I never really "got it". I never had a six pack or looked shredded. I changed that last year, largely on a whim, and so I feel I have at least some credibiliity to talk about what's needed here. That said, I'm also parroting the things your doctor, physical therapist, trainer, or local nutrition, fitness, or performance academics would likely tell you as well. Though I hope I'm giving it a bit of seasoning to make the ideas more pallatable.
+
+The Modern Galenic Pantheon
+
+In the spirit of Galen's non-naturals, consider a modern pantheon of "gods" which we can consider when thinking about our overall health:
+
+<TODO add pantheon>
+
+Worship of these gods is a balancing act. They have competing interests, and there's only so many hours in the day. Balance is the name of the game, and these perspectives would serve any person well in their health journey. It's also insufficient to "best effort" your way through these things. We need one more critical component which is implicit to all of the Galenic god worship: measurement.
+
+Lavosier's Demon
+
+Antonie Levosier was a 18th century Parisian tax collector and lawyer (not a great time or place to be those things - as was affirmed by his being disabused of his head in a good old fashioned guillotining at the age of 50). Lavoisier likely would have been better served leaving his professions and instead more fully dedicating himself to science, as he was a critical contributor to our modern understanding of metabolism. Before his work, the popular theory of the time was that a substance known as phlogiston was released during combustion and respiration (which had been intuitively linked). This substance saturated the area which prevented further combustion or respiration. This was meant to simultaneously explain how a fire and a human might both be smothered to death. There's a piece of truth to it - CO2 build up and a lack of oxygen are certainly linked concepts and both extinguish life and flame. But Lavoisier was not satisfied with this explanation. He saw it as backwards, literally, in that it doesn't explain any of the process of combustion or respiration, only it's limiting constraints. His spent a large portion of his life meticulously measuring everything regarding these phenomena using the best tools of the time: balance scales, pneumatic troughs, custom glass and bladders, and a self-made calorimeter. With the aid of his wife, Marie-Anne and a collaborator, Armand Seguin, he was able to measure gas exchange volumes, digestion, and the impacts of movement and exercise. His conclusion was that through respiration, the body was performing a sort of "slow combustion", burning fuel to perform all its necessary work. Like a more nuanced, science-based calories-in-calories-out (CICO), he created a firm link between the physics of thermodynamics and the function of biological organisms. We are creatures that live in entropy gradients, consuming low entropy and creating high. 
+
+So how do we use this? Well, CICO has some truth to it. It's a good regularizer - you can't cheat thermodynamics. But the real, critical contribution of Lavoisier was the clarity that when it comes to the body's operations, we can measure it just like we measure anything else in our world. We can weight ourselves, of course, though this is a surprisingly annoying task with different scales having as much as +-3lb errors, our weight fluctuating several pounds over a day based on hydration, consumption, and excretion, and the hyper-efficiency of fat as an energy source putting a hard cap of 1-2lb of weight loss per week even under extreme conditions. But we can also measure what goes in and out of us. Calorie counting is the classic example of this, but this often fails as it misses the fact that our body doesn't respond the same to all calorie sources. Some things, like fats, do not produce nearly the satiety effects as, say, protein. The next order down is looking at our macronutrients (protein, carbohydrates, and fat - with special attention paid to alcohol as it also contributes calories without macros). You'll often hear people who are in to fitness talk about the importance of protein. It certainly is critical for muscle growth as well as a variety of other bodily functions. But an arguably more critical function is in how it produces satiety. Maximizing protein means you don't want to eat as much. And as we'll discuss, it's this mental game that is the true hard part of health and fitness. 
+
+We Are Batman
+
+Nerds have hot idols. Whether its our superheros, our fantasy main characters, or our sports superstars, they're all hot. And in most cases, they got hot through trials. They suffered and overcame. They changed themselves into what they needed to be to succeed. You too, will need to change to get as hot (and hopefully healthy) as them. Would Batman complain about logging his macros? Or about having to eat chicken and rice instead of pizza? Would Uncle Iroh skip leg day in his cell because he just wasn't feeling it that day? Would Arya Stark complain about cardio being too sweaty? Well - yeah I supposed they would if you caught them before they transformed. Batman was a spoiled rich kid, Arya was a petulant child, and Uncle Iroh was an angry conflicted mess. But they all went through a heroes journey, and you need to too.
+
+The Heroes Journey: Dyynamical Systems Modeling of Habit Formation
+
+There are a lot of traps in the road to health and fitness. Even if you stay away from the consumerist ones, the process is one of figuring out what works for you. The reason it's so hard to find a one size fits all solution for these things is because the mental game is the actual hard part, and everyone's mind is  different. The key, therefore, is a strategy of exploration and exploitation. Explore doable things in the space of "better" - try a lot of them! Don't be afraid to abandon them when they aren't working, but don't let that stop you from trying again. When you find something that works, double down on making that thing easier - effortless - automatic. For each of our "gods" of health, we perform this process that I like to call bootstrapping to find our own path. 
+
+If you're not a math nerd, you can probably stop here, but if your brain is screaming at you right now "ok but what about the optimal path?!", and you're not afraid of some equations, the rest of this is for you.
+
+Consider for a moment the state space of Habit Formation, H (automaticity of habits), Expectation Alignemnt, E (how well aligned your expectations are to the plausible outcomes of your actions), Behavioral Complexity, C (how complex a set of behaviors you're doing to accomplish your goals), Motivation Sensation, M (how motivated you feel at that moment), and Identity Alignemnt, I (how much you have internalized the habits you're building as part of your identity). What we want is a set of equations for the derivative of these 5 variables with respect to time. Why these 5? Well, the honest answer is because they seem sufficient to describe the set of phenomena of interest here. Some additional variables are also implicit to the system such as stress level, social support, and cognitive load, but these are either driven primarily by exogenous factors or are derivable from the core 5 variaibles. 
+
+In order to derive the dynamics functions to understand how a person evolves through this 5 dimensional space, we can start from some core principles:
+
+<TODO enumerate the input concept phenomena>
+
+These are likely incomplete, but they capture a large amount of the habit formation and performance literature and, generally, produce the sorts of dynamics we're interested in.
+
+Combining these and simplifying gives us the following guiding equations:
+
+<TODO dynamics equations>
+
+There's a lot to unpack here, but what should first strike you is the number of tunable coefficients in this model. Even if we hand-wave particular scale and phase regimes (such as a goal area of "complex, high performing habits, well aligned to expectations with motivational and identity stability" or a failure area of "low motivation, low habit automaticity), the actual relationship between these variables is rife with difficult-to-align hyper-parameters. Moreover, we haven't included the actual behavior of interest as a part of this. So we need one more variable, B, representing Behavioral Activation. This doesn't so much describe an element of the state of the person (as stated previously, this is about the mental game of changing yourself), but it represents a sort of action space the person might be executing. Extensic events add force in this space, and as a result, we can imagine a sequence of events unfolding in a person in this dynamical space.
+
+Regardless of the tuned parameters, one of the phase portrait properties of the space we've created with these dynamics is a large, linear separatrix region in the C-H space. In effect, this represents the idea that we cannot overshoot our complexity of our habits and behaviors. We have to bootstrap or risk being "thrown" into a sedentary crash out.
+
+As with many dynamics models like this, it's really better to play with it than just stare at the equations. So for your viewing pleasure, here's a simulation of this system: <TODO sim link>
+
+Of independent interest might be how I tuned the specific hyperparameters I mentioned before. A form of training I'm calling Synthetic Narrative Training was used in which a set of 20 persona were synthetically created representing a wide space of life situations, ages, personalities, and physical characteristics. Then, 100 unique narrative scenarios were generated for each persona with plausible life events unfolding at particular time intervals along with plausible state variables. These were then grounded to values in the literature around habit formation (such as the classic new years resolution crash timeline) to create a system that is vaguely calibrated to reality. This is obviously not perfect, but as a toy model to explore why certain behavioral trajectories fail, I find it quite perspective-building.
+
+Be a Fit Nerd
+
+In closing, whether you're just getting started, stuck, or just looking to go furthe than you've gone before, I hope these perspectives are of some value to you. Optimizing your health ecosystem to your needs to a daunting task. If you can take one thing away from this work, it's that you have to take it step by step. If you're a level 1 character in a game and I toss you a pile of level 10 spells, you're going to have a bad time. Work your way to your goals, have reasonable expectations, nerd out about your measurement and your data, experiment, and exploit what works for you. Your body is not what is going to stop you from being shredded, your brain is. So game it. You're a nerd, you can do it.
